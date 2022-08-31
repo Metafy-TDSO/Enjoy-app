@@ -1,15 +1,15 @@
 {
   "name": "enjoy",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint .",
+    "lint": "eslint ./src/**",
     "format": "prettier --write ./src/**/*"
   },
+  "main": "src/index.tsx",
   "dependencies": {
     "@gorhom/bottom-sheet": "^4.4.3",
     "@react-native-async-storage/async-storage": "~1.17.3",
@@ -47,6 +47,8 @@
     "@types/react-native": "^0.69.6",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-preset-expo": "^9.2.0",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.0",

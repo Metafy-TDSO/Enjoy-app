@@ -4738,7 +4738,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-expo@npm:~9.2.0":
+"babel-preset-expo@npm:^9.2.0, babel-preset-expo@npm:~9.2.0":
   version: 9.2.0
   resolution: "babel-preset-expo@npm:9.2.0"
   dependencies:
@@ -6165,6 +6165,8 @@ __metadata:
     "@types/react-native": ^0.69.6
     "@typescript-eslint/eslint-plugin": ^5.36.1
     "@typescript-eslint/parser": ^5.36.1
+    babel-plugin-module-resolver: ^4.1.0
+    babel-preset-expo: ^9.2.0
     eslint: ^8.23.0
     eslint-config-prettier: ^8.5.0
     eslint-import-resolver-typescript: ^3.5.0
