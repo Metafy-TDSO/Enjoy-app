@@ -1,0 +1,16 @@
+# Assets
+**/assets
+
+# Files
+*.json
+
+# Build
+build
+node_modules
+.husky
+.github
+.yarn
+.pnp.*
+
+# Config
+.eslintrc

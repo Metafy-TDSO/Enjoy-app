@@ -9,6 +9,13 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
+/.pnp
+
+.yarn
+.pnp.*
+!.yarn/releases
+!.yarn/plugins
+yarn-error.log
 
 # macOS
 .DS_Store
