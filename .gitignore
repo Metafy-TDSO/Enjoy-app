@@ -11,10 +11,11 @@ npm-debug.*
 web-build/
 /.pnp
 
-.yarn
-.pnp.*
 !.yarn/releases
 !.yarn/plugins
+.yarn/cache
+.yarn/*.gz
+.pnp.*
 yarn-error.log
 
 # macOS
