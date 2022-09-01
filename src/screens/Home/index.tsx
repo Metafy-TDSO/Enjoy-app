@@ -18,7 +18,7 @@ export const HomeScreen = (): JSX.Element => {
         height={24}
         alt="logo"
       />
-      <Text textAlign="center">Hello</Text>
+      <Text textAlign="center">Hello Test1</Text>
       <Text textAlign="center">Event info</Text>
       <Button mt={4}>Home</Button>
     </Center>
