@@ -12,7 +12,7 @@ const commonColors = {
     600: '#2d3b85',
     700: '#1f2a61',
     800: '#11193d',
-    900: '#05071a',
+    900: '#05071a'
   },
   secondary: {
     50: '#ffe1f1',
@@ -24,12 +24,12 @@ const commonColors = {
     600: '#b4003f',
     700: '#82002d',
     800: '#50001a',
-    900: '#21000a',
+    900: '#21000a'
   },
   background: '#fff',
   border: '#000',
   card: '#fff',
-  notification: '#000',
+  notification: '#000'
 }
 
 const fontSizes = {
@@ -42,7 +42,7 @@ const fontSizes = {
   '2xl': 24,
   '3xl': 28,
   '4xl': 32,
-  '5xl': 40,
+  '5xl': 40
 } as const
 
 const scale = fontSizes.md
@@ -72,12 +72,12 @@ export const space = {
   '64': 16 * scale,
   '72': 18 * scale,
   '80': 20 * scale,
-  '96': 24 * scale,
+  '96': 24 * scale
 } as const
 
 export const theme = extendTheme({
   config: {
-    useSystemColorMode: true,
+    useSystemColorMode: true
   },
   colors: commonColors,
   space,
@@ -86,36 +86,19 @@ export const theme = extendTheme({
       shadowOffset: { width: 0, height: 2 },
       shadowColor: commonColors.primary['500'],
       shadowOpacity: 0.16,
-      elevation: 3,
-    },
-  },
+      elevation: 3
+    }
+  }
 })
 
-export const lightNavigationTheme: Theme = {
+export const navigationTheme: Theme = {
   colors: {
     background: theme.colors.dark[900],
     border: theme.colors.dark[900],
     card: theme.colors.dark[900],
     notification: theme.colors.red[400],
     primary: theme.colors.primary[400],
-    text: theme.colors.black,
+    text: theme.colors.black
   },
-  dark: false,
-}
-
-export const darkNavigationTheme: Theme = {
-  colors: {
-    background: theme.colors.dark[50],
-    border: theme.colors.dark[50],
-    card: theme.colors.dark[50],
-    notification: theme.colors.red[400],
-    primary: theme.colors.primary[400],
-    text: theme.colors.white,
-  },
-  dark: true,
-}
-
-export const navigationTheme = {
-  light: lightNavigationTheme,
-  dark: darkNavigationTheme,
+  dark: false
 }
