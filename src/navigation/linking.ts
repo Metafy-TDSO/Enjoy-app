@@ -15,15 +15,16 @@ const universalLinks = Constants.manifest?.extra?.universalLinks ?? []
 export const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [prefix, ...universalLinks],
   config: {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'Home',
     screens: {
-      HomeScreen: 'home-screen',
+      Home: '',
+      EventDetails: '/details/:id',
+      Search: '/search',
+      Navigation: '/navigation'
       // screens: {
       //   HomeStack: {
       //     initialRouteName: 'Home',
       //     screens: {
-      //       Home: '',
-      //       Details: '/details/:id'
       //     }
       //   },
       //   ExamplesStack: {
@@ -36,7 +37,6 @@ export const linking: LinkingOptions<RootStackParamList> = {
       //     }
       //   }
       // }
-      EventInfo: 'event-info'
       // SignIn: 'sign-in',
       // SignUp: 'sign-up',
       // NotFound: '*',

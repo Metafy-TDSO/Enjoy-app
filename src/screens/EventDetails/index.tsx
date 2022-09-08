@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { Button, Center, Text, Image } from 'native-base'
 
-export const HomeScreen = (): JSX.Element => {
+export const EventDetails = (): JSX.Element => {
   const navigation = useNavigation()
 
   return (
@@ -15,11 +15,11 @@ export const HomeScreen = (): JSX.Element => {
       />
       <Text textAlign="center">Hello Test2</Text>
       <Text textAlign="center">Event info</Text>
-      <Button mt={4}>Home</Button>
-      <Button mt={4} onPress={() => navigation.navigate('Search')}>
-        Search
+      <Button mt={4}>EventDetails</Button>
+      <Button mt={4} onPress={() => navigation.navigate('Home')}>
+        Home
       </Button>
-      <Button mt={4} onPress={() => navigation.navigate('EventDetails', { id: 'batata' })}>
+      <Button mt={4} onPress={() => navigation.navigate('Search')}>
         EventDetails
       </Button>
       <Button mt={4} onPress={() => navigation.navigate('Navigation')}>

@@ -6,7 +6,7 @@ import { linking } from './linking'
 
 import { StatusBar } from '~components'
 import { useScreenTracker, useNavigationStatePersistence } from '~hooks'
-import { lightNavigationTheme } from '~constants'
+import { navigationTheme } from '~constants'
 
 export const Navigation: FC = () => {
   const { navigationRef, onReady, onStateChange: onStateChangeScreenTracker } = useScreenTracker()
@@ -36,7 +36,7 @@ export const Navigation: FC = () => {
         ref={navigationRef}
         onReady={onReady}
         onStateChange={onStateChange}
-        theme={lightNavigationTheme}
+        theme={navigationTheme}
         linking={linking}
         initialState={initialState}
       >

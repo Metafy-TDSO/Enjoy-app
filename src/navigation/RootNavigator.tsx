@@ -1,23 +1,16 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import { FC } from 'react'
 
-import { HomeStack } from './HomeStack'
+import { HomeScreen, EventDetails, SearchScreen, NavigationScreen } from '~screens'
 
-const { Navigator, Screen, Group } = createStackNavigator<RootStackParamList>()
+const { Navigator, Screen } = createStackNavigator<RootStackParamList>()
 
-export const RootNavigator: FC = () => {
+export const RootNavigator = (): JSX.Element => {
   return (
-    <Navigator>
-      <Group key="authorized">
-        <Screen name="HomeScreen" options={{ title: 'Home' }} component={HomeStack} />
-      </Group>
-      {/* <Group key="modals" screenOptions={{ presentation: 'modal' }}>
-        <Screen
-          name="EventInfo"
-          options={{ title: t('navigation.screen_titles.event_info') }}
-          component={EventInfoScreen}
-        />
-      </Group> */}
+    <Navigator screenOptions={{ headerShown: false, animationEnabled: true }}>
+      <Screen name="Home" component={HomeScreen} />
+      <Screen name="EventDetails" component={EventDetails} />
+      <Screen name="Search" component={SearchScreen} />
+      <Screen name="Navigation" component={NavigationScreen} />
     </Navigator>
   )
 }
