@@ -14,30 +14,55 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "prettier",
     "react-native-globals",
     "react",
-    "react-native"
+    "react-native",
+    "prettier"
   ],
   "extends": [
     "eslint:recommended",
+    "prettier",
     "plugin:react/recommended",
-    "plugin:react-native/all",
-    "universe",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
+    "plugin:react-native/recommended",
     "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
-    "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "plugin:import/typescript"
   ],
   "env": {
     "react-native/react-native": true
   },
   "rules": {
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
+    "no-case-declarations": "off",
+    "object-shorthand": "error",
+    "no-template-curly-in-string": "error",
+    "prefer-template": "error",
     "linebreak-style": [
       "error",
       "unix"
+    ],
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "external",
+          "builtin",
+          "internal",
+          [
+            "parent",
+            "sibling"
+          ],
+          "index",
+          "type"
+        ],
+        "newlines-between": "always"
+      }
     ],
     "quotes": [
       "error",
