@@ -1,30 +1,35 @@
-import { Ionicons } from '@expo/vector-icons'
 import * as Font from 'expo-font'
 import { useEffect, useState } from 'react'
+import {
+  Inter_100Thin,
+  Inter_200ExtraLight,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold,
+  Inter_900Black
+} from '@expo-google-fonts/inter'
 
 export const useCachedResources = (): boolean => {
+  const [fontsLoaded] = Font.useFonts({
+    Inter_100Thin,
+    Inter_200ExtraLight,
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold,
+    Inter_900Black
+  })
+
   const [isLoadingComplete, setLoadingComplete] = useState(false)
 
   useEffect(() => {
-    async function loadResourcesAndDataAsync() {
-      try {
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'lato-regular': require('assets/fonts/Lato-Regular.ttf'),
-          'lato-bold': require('assets/fonts/Lato-Bold.ttf'),
-          'lato-extra-bold': require('assets/fonts/Lato-Black.ttf'),
-        })
-      } catch (e) {
-        // We might want to provide this error information to an error reporting service
-        console.warn(e)
-      } finally {
-        setLoadingComplete(true)
-      }
-    }
-
-    loadResourcesAndDataAsync()
-  }, [])
+    if (fontsLoaded) setLoadingComplete(true)
+  }, [fontsLoaded])
 
   return isLoadingComplete
 }

@@ -1,7 +1,11 @@
 import type { Theme } from '@react-navigation/native'
 import { extendTheme } from 'native-base'
 
-const commonColors = {
+export const commonColors = {
+  white: '#FFF',
+  black: '#000',
+  lightText: '#FFF',
+  subText: '#C3C3C3',
   primary: {
     50: '#e9eeff',
     100: '#c4ccf0',
@@ -9,10 +13,10 @@ const commonColors = {
     300: '#7a88d2',
     400: '#5566c4',
     500: '#3b4caa',
-    600: '#2d3b85',
-    700: '#1f2a61',
-    800: '#11193d',
-    900: '#05071a'
+    600: '#8662D3',
+    700: '#8029FF',
+    800: '#8029FF',
+    900: '#8029FF'
   },
   secondary: {
     50: '#ffe1f1',
@@ -20,19 +24,18 @@ const commonColors = {
     200: '#ff7ead',
     300: '#ff4c8c',
     400: '#ff1a6b',
-    500: '#e60051',
-    600: '#b4003f',
+    500: '#64D5D8',
+    600: '#64D5D8',
     700: '#82002d',
     800: '#50001a',
     900: '#21000a'
   },
-  background: '#fff',
-  border: '#000',
-  card: '#fff',
-  notification: '#000'
+  background: '#0D0A14',
+  border: '#C3C3C3',
+  card: '#333'
 }
 
-const fontSizes = {
+export const fontSizes = {
   '2xs': 10,
   xs: 12,
   sm: 14,
@@ -77,28 +80,67 @@ export const space = {
 
 export const theme = extendTheme({
   config: {
-    useSystemColorMode: true
+    useSystemColorMode: false,
+    initialColorMode: 'dark'
   },
-  colors: commonColors,
-  space,
-  shadows: {
-    inputShadow: {
-      shadowOffset: { width: 0, height: 2 },
-      shadowColor: commonColors.primary['500'],
-      shadowOpacity: 0.16,
-      elevation: 3
+  fontConfig: {
+    Inter: {
+      100: {
+        normal: 'Inter_100Thin'
+      },
+      200: {
+        normal: 'Inter_200ExtraLight'
+      },
+      300: {
+        normal: 'Inter_300Light'
+      },
+      400: {
+        normal: 'Inter_400Regular'
+      },
+      500: {
+        normal: 'Inter_500Medium'
+      },
+      600: {
+        normal: 'Inter_600SemiBold'
+      },
+      700: {
+        normal: 'Inter_700Bold'
+      },
+      800: {
+        normal: 'Inter_800ExtraBold'
+      }
+    }
+  },
+  fonts: {
+    body: 'Inter',
+    heading: 'Inter',
+    mono: 'Inter'
+  },
+  components: {
+    Input: {
+      baseStyle: () => ({
+        _input: { bg: commonColors.primary[800] },
+        _dark: {
+          _focus: {
+            borderColor: commonColors.secondary[600]
+          },
+          placeholderTextColor: commonColors.subText,
+          borderColor: commonColors.primary[800],
+          color: commonColors.lightText
+        }
+      })
     }
   }
 })
 
 export const navigationTheme: Theme = {
   colors: {
-    background: theme.colors.dark[900],
-    border: theme.colors.dark[900],
+    background: '#0D0A14',
+    border: '#C3C3C3',
     card: theme.colors.dark[900],
     notification: theme.colors.red[400],
-    primary: theme.colors.primary[400],
-    text: theme.colors.black
+    primary: '#8662D3',
+    text: '#FFF'
   },
-  dark: false
+  dark: true
 }
