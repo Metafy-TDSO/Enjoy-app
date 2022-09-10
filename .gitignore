@@ -18,5 +18,7 @@ web-build/
 .pnp.*
 yarn-error.log
 
+.env
+
 # macOS
 .DS_Store
