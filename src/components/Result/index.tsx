@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 import { StyleSheet } from 'react-native'
 import { Avatar, Box, HStack, Icon, Text, VStack } from 'native-base'
 import automarker from 'automarker'
+import { MaterialIcons } from '@expo/vector-icons'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 import { Event, Region } from '~services/models'
 import { calcCrow } from '~utils/calcCrow'
 import { commonColors, fontSizes, space } from '~constants'
-import { MaterialIcons } from '@expo/vector-icons'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 export interface ResultProps {
   event: Pick<Event, 'id' | 'name'> & Partial<Omit<Event, 'id' | 'name'>>

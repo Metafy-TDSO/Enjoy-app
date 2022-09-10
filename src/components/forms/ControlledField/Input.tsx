@@ -1,16 +1,17 @@
 import { forwardRef, useCallback } from 'react'
 import { Controller, get } from 'react-hook-form'
 import { TextInput } from 'react-native'
+
 import { Field } from '~components/Field'
 
 import type { ControlledInputProps, RenderInputProps } from './types'
 
 export const Input = forwardRef<TextInput, ControlledInputProps>(
-  ({ control, name, errors, rules, children, ...props }, ref) => {
+  ({ control, name, errors, rules, ...props }, ref) => {
     const errorMessage = get(errors, name)?.message
 
     const renderInput = useCallback(
-      ({ field: { onChange, name, ...fieldProps } }: RenderInputProps) => (
+      ({ field: { onChange, ...fieldProps } }: RenderInputProps) => (
         <Field.Input
           {...props}
           {...fieldProps}

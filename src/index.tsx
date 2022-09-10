@@ -1,10 +1,9 @@
-import 'react-native-gesture-handler'
 import 'react-native-reanimated'
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { registerRootComponent } from 'expo'
 import { StyleSheet } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { NativeBaseProvider } from 'native-base'
 import { QueryClientProvider } from 'react-query'
 

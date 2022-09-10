@@ -1,5 +1,6 @@
-import type { Theme } from '@react-navigation/native'
 import { extendTheme } from 'native-base'
+
+import type { Theme } from '@react-navigation/native'
 
 export const commonColors = {
   white: '#FFF',

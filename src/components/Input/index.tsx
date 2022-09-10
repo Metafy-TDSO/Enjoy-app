@@ -39,7 +39,7 @@ const layoutPropsKeys = [
 ]
 
 export const Input = forwardRef<TextInput, FieldInputProps>(
-  ({ isDisabled, isRequired, isInvalid, label, helperText, errorMessage, ...props }, ref) => {
+  ({ isRequired, isInvalid, label, helperText, errorMessage, ...props }, ref) => {
     const layoutProps = useMemo(
       () => Object.fromEntries(Object.entries(props).filter(([key]) => layoutPropsKeys.includes(key))),
       [props]

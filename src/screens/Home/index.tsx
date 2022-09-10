@@ -4,16 +4,17 @@ import { Dimensions, StyleSheet, Alert } from 'react-native'
 import MapView, { Region, PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location'
 import { useQuery } from 'react-query'
+import MapViewDirections from 'react-native-maps-directions'
+import { BlurView } from 'expo-blur'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { commonColors, fontSizes, GOOGLE_MAPS_APIKEY } from '~constants'
-import mapStyle from './map.style.json'
-import MapViewDirections from 'react-native-maps-directions'
 import { websocketClient } from '~services/client'
 import { Event } from '~services/models'
 import { getEventById } from '~services/api'
-import { BlurView } from 'expo-blur'
 import { DirectionsTab } from '~components/NavigationTab'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+
+import mapStyle from './map.style.json'
 
 const deltas = {
   latitudeDelta: 0.0922,

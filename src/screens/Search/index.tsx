@@ -3,14 +3,15 @@ import { StyleSheet, Dimensions } from 'react-native'
 import { Container, Box, FlatList, Divider, Button, Center, Spinner } from 'native-base'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { useQuery } from 'react-query'
-import debounce from 'debounce'
+import { debounce } from 'debounce'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { Result } from '~components/Result'
 import { ASYNC_STORAGE_KEYS, commonColors, space } from '~constants'
-import { SearchBar } from '~components/SearchBar'
 import { getManyEvents } from '~services/api'
 import { Event } from '~services/models'
+
+import { SearchBar } from '~components/SearchBar'
 
 export type SearchScreenProps = NativeStackScreenProps<RootStackParamList, 'Search'>
 

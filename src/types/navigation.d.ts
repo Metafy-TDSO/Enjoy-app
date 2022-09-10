@@ -1,5 +1,3 @@
-import type { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
-import type { StackScreenProps } from '@react-navigation/stack'
 import type { Event, Region } from '~services/models'
 
 declare global {
@@ -14,12 +12,6 @@ declare global {
   type RootStackParamList = HomeStackParamList
 
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    type RootParamList = RootStackParamList
   }
-
-  // Root stack
-  type RootStackScreenProps = RootStackComposite
 }
-
-type RootStackComposite<S extends keyof RootStackParamList = keyof RootStackParamList> =
-  CompositeScreenProps<StackScreenProps<RootStackParamList, S>, any>

@@ -1,5 +1,6 @@
 import * as SplashScreen from 'expo-splash-screen'
 import { FC, Fragment, PropsWithChildren, useEffect } from 'react'
+
 import { useCachedResources } from '~hooks'
 
 SplashScreen.preventAutoHideAsync()

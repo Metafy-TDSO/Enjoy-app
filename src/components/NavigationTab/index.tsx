@@ -1,10 +1,13 @@
 import { StyleSheet, Dimensions } from 'react-native'
 import { HStack, Icon, Progress, Text, View, VStack } from 'native-base'
-import { commonColors } from '~constants'
-import { CloseButton } from '~components/CloseButton'
 import { MaterialIcons } from '@expo/vector-icons'
+/* eslint-disable import/no-duplicates */
 import { formatDuration } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+/* eslint-enable import/no-duplicates */
+
+import { CloseButton } from '~components/CloseButton'
+import { commonColors } from '~constants'
 
 interface DirectionsTabProps {
   initialDistance: number

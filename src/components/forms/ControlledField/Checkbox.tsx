@@ -1,9 +1,10 @@
 import { Controller, ControllerRenderProps, get } from 'react-hook-form'
+import { useCallback } from 'react'
+
+import { Field } from '~components/Field'
 
 import type { ControlledCheckboxProps, RenderInputProps } from './types'
 
-import { Field } from '~components/Field'
-import { useCallback } from 'react'
 
 export const Checkbox: React.FC<ControlledCheckboxProps> = ({
   name,

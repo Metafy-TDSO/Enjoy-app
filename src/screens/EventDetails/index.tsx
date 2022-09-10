@@ -1,9 +1,11 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import { Avatar, Button, Container, Heading, HStack, Icon, ScrollView, Text, VStack } from 'native-base'
 import { StyleSheet, Dimensions } from 'react-native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+/* eslint-disable import/no-duplicates */
 import { getDay, format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+/* eslint-enable import/no-duplicates */
 
 import { fontSizes, space } from '~constants'
 import { CloseButton } from '~components/CloseButton'

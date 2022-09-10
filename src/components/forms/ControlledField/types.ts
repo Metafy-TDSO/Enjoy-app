@@ -7,6 +7,7 @@ import {
   Path,
   RegisterOptions
 } from 'react-hook-form'
+
 import { FieldCheckboxProps, FieldInputProps } from '~components/Field'
 
 export type ControlledCheckboxProps = Omit<FieldCheckboxProps, 'value'> & {

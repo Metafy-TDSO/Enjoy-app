@@ -1,4 +1,5 @@
 import { Box } from 'native-base'
+
 import { AbsoluteProps } from '~components/Absolute'
 
 export const AbsoluteFullFill = (props: AbsoluteProps) => (

@@ -11,4 +11,3 @@ node_modules
 .github
 .yarn
 .pnp.*
-apollo.config.js
