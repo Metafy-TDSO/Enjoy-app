@@ -5,20 +5,24 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { registerRootComponent } from 'expo'
 import { StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { NativeBaseProvider } from 'native-base'
+import { QueryClientProvider } from 'react-query'
 
 import { AppLoading } from '~components'
 import { theme, nativeBaseConfig } from '~constants'
 import { Navigation } from '~navigation'
-import { NativeBaseProvider } from 'native-base'
+import { queryClient } from '~services/client'
 
 const App = (): JSX.Element => {
   return (
     <NativeBaseProvider theme={theme} config={nativeBaseConfig}>
       <AppLoading>
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
-          <BottomSheetModalProvider>
-            <Navigation />
-          </BottomSheetModalProvider>
+          <QueryClientProvider client={queryClient}>
+            <BottomSheetModalProvider>
+              <Navigation />
+            </BottomSheetModalProvider>
+          </QueryClientProvider>
         </GestureHandlerRootView>
       </AppLoading>
     </NativeBaseProvider>
