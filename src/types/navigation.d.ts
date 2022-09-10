@@ -1,13 +1,14 @@
-import { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
-import { StackScreenProps } from '@react-navigation/stack'
+import type { CompositeScreenProps, NavigatorScreenParams } from '@react-navigation/native'
+import type { StackScreenProps } from '@react-navigation/stack'
+import type { Event, Region } from '~services/models'
 
 declare global {
   type HomeStackParamList = {
-    Home: undefined
-    EventDetails: { id: string }
-    Search: undefined
-    // TODO(guilherme-vp): Adicionar props da página de navegação
-    Navigation: undefined
+    Home: { eventId?: number } | undefined
+    EventDetails: { event: Event }
+    Search: {
+      currentLocation: Region
+    }
   }
 
   type RootStackParamList = HomeStackParamList
