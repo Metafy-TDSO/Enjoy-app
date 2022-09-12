@@ -1,9 +1,8 @@
 import { useMemo } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableNativeFeedback } from 'react-native'
 import { Avatar, Box, HStack, Icon, Text, VStack } from 'native-base'
 import automarker from 'automarker'
 import { MaterialIcons } from '@expo/vector-icons'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 import { Event, Region } from '~services/models'
 import { calcCrow } from '~utils/calcCrow'
@@ -30,7 +29,7 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
   )
 
   return (
-    <TouchableWithoutFeedback onPress={() => onPress(id)}>
+    <TouchableNativeFeedback onPress={() => onPress(id)}>
       <Box width="100%" borderColor="muted.800" pl={['0', '4']} pr={['0', '5']} py="6px" key={id}>
         <HStack space={[2, 3]}>
           <VStack justifyContent="center" alignItems="center" paddingRight={space['0.5']}>
@@ -70,7 +69,7 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
           </VStack>
         </HStack>
       </Box>
-    </TouchableWithoutFeedback>
+    </TouchableNativeFeedback>
   )
 }
 
