@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { QueryClient } from 'react-query'
 import { Axios } from 'axios'
 import { io } from 'socket.io-client'
@@ -7,7 +9,7 @@ const { API_URL } = process.env
 export const queryClient = new QueryClient()
 
 export const apiClient = new Axios({
-  baseURL: API_URL || 'http://127.0.0.1:3000/',
+  baseURL: API_URL || 'http://10.2.2:3000/',
   timeout: 5000,
   headers: {
     'Content-type': 'application/json'
