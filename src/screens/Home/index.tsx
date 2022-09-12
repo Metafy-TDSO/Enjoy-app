@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Dimensions, StyleSheet, Alert } from 'react-native'
-import { Center, Container, Input, ScrollView, Spinner } from 'native-base'
+import { Button, Center, ScrollView, Spinner } from 'native-base'
 import MapView, { Region, PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location'
 import { useQuery } from 'react-query'
@@ -8,7 +8,7 @@ import MapViewDirections from 'react-native-maps-directions'
 import { BlurView } from 'expo-blur'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { commonColors, fontSizes, GOOGLE_MAPS_APIKEY } from '~constants'
+import { commonColors, GOOGLE_MAPS_APIKEY } from '~constants'
 import { websocketClient } from '~services/client'
 import { Event } from '~services/models'
 import { getEventById } from '~services/api'
@@ -27,11 +27,11 @@ export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>
 export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element => {
   const eventId = route.params?.eventId
 
-  const [position, setPosition] = useState<Region>({ latitude: 0, longitude: 0, ...deltas })
+  const [position, setPosition] = useState<Region>({ latitude: 1, longitude: 1, ...deltas })
   const { data: navigationData, isLoading } = useQuery(['navigation event'], () =>
     eventId ? getEventById(eventId) : null
   )
-  const [nearEvents, setNearEvents] = useState<Event[]>()
+  const [nearEvents, setNearEvents] = useState<Event[]>([])
   const mapEl = useRef<MapView>(null)
   const [initialDistance, setInitialDistance] = useState<number>()
   const [navigationState, setNavigationState] = useState<{ distance: number; duration: number }>()
@@ -58,7 +58,8 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
 
   useEffect(() => {
     websocketClient.on('server:event:search-near', (events: Event[]) => {
-      setNearEvents(events)
+      const newEvents = [...nearEvents, ...events]
+      setNearEvents(newEvents)
     })
 
     return () => {
@@ -91,15 +92,12 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
           <Spinner color={commonColors.primary[700]} />
         </BlurView>
       )}
-      <Container style={styles.searchContainer}>
-        <Input
-          variant="unstyled"
-          placeholder="Ex: festa sleepover, pandora, arena..."
-          onPressIn={() => navigation.navigate('Search', { currentLocation: position })}
-          fontSize={fontSizes.xs}
-          style={styles.searchBar}
-        />
-      </Container>
+      <Button
+        style={styles.searchContainer}
+        onPress={() => navigation.navigate('Search', { currentLocation: position })}
+      >
+        Ex: festa sleepover, pandora, arena...
+      </Button>
       <MapView
         style={styles.map}
         initialRegion={position}
@@ -109,6 +107,8 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
         showsBuildings={false}
         showsIndoors={false}
         cacheEnabled
+        showsUserLocation
+        followsUserLocation
         loadingEnabled={position.latitude === 0}
       >
         {isNavigating && navigationData?.event && (
@@ -133,14 +133,15 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
           />
         )}
         {!isNavigating &&
-          nearEvents?.map(event => (
+          nearEvents.map(event => (
             <Marker
               key={event.id}
               coordinate={{
                 latitude: event.latitude,
                 longitude: event.longitude
               }}
-              icon={require('~assets/marker.png')}
+              title="asdasd"
+              // icon={require('~assets/marker.png')}
               onPress={() => handlePressEvent(event)}
             />
           ))}
@@ -154,7 +155,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
       )}
       {!isNavigating && (
         <ScrollView horizontal style={styles.nearEventsList}>
-          {nearEvents?.map(event => (
+          {nearEvents.map(event => (
             <EventCard
               key={event.id}
               currentLocation={position}
@@ -176,10 +177,15 @@ const styles = StyleSheet.create({
   searchContainer: {
     position: 'absolute',
     left: 40,
-    top: 32,
+    top: 42,
     zIndex: 5000,
     elevation: 1,
-    minWidth: Dimensions.get('window').width - 80
+    minWidth: Dimensions.get('window').width - 80,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: commonColors.primary[700],
+    color: commonColors.lightText,
+    justifyContent: 'flex-start'
   },
   searchBar: {
     borderRadius: 16,

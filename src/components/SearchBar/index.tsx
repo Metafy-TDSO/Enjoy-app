@@ -18,8 +18,9 @@ export const SearchBar = ({ onGoBack, handleChangeText, value, ...inputProps }: 
       style={styles.searchBar}
       InputLeftElement={
         <Icon
-          as={<MaterialIcons name="arrow-back" />}
+          as={MaterialIcons}
           color={commonColors.secondary[600]}
+          name="arrow-back"
           size="16px"
           ml={2}
           onPress={onGoBack}
@@ -27,7 +28,8 @@ export const SearchBar = ({ onGoBack, handleChangeText, value, ...inputProps }: 
       }
       InputRightElement={
         <Icon
-          as={<MaterialIcons name="highlight-off" />}
+          as={MaterialIcons}
+          name="highlight-off"
           size="16px"
           mr={2}
           color={commonColors.secondary[600]}
