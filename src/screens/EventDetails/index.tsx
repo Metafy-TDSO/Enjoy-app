@@ -1,14 +1,14 @@
-import { MaterialIcons } from '@expo/vector-icons'
-import { Avatar, Button, Container, Heading, HStack, Icon, ScrollView, Text, VStack } from 'native-base'
 import { StyleSheet, Dimensions } from 'react-native'
+import { Button, Heading, HStack, Icon, Image, Text, View, VStack } from 'native-base'
+import { MaterialIcons } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-/* eslint-disable import/no-duplicates */
-import { getDay, format } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-/* eslint-enable import/no-duplicates */
+import { format } from 'date-fns'
+// eslint-disable-next-line import/default
+import ParallaxScrollView from 'react-native-parallax-scroll-view'
 
-import { fontSizes, space } from '~constants'
+import { commonColors, fontSizes, space } from '~constants'
 import { CloseButton } from '~components/CloseButton'
+import { EventDate } from '~components/EventDate'
 
 export type EventDetailsProps = NativeStackScreenProps<RootStackParamList, 'EventDetails'>
 
@@ -29,60 +29,96 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
   }
 
   return (
-    <Container>
-      <HStack alignItems="space-between" justifyContent="center" style={styles.stickyHeader}>
+    <>
+      <HStack justifyContent="space-between" style={styles.fixedSection}>
         <CloseButton onClose={handleClose} />
-        <Avatar size="64px" _dark={{ backgroundColor: 'black', borderColor: 'primary.600' }}>
-          <VStack>
-            <Text fontWeight={800} fontSize={fontSizes.xl}>
-              {getDay(new Date(event.startAt))}
-            </Text>
-            <Text fontSize={fontSizes.sm}>{format(new Date(event.startAt), 'MMM', { locale: ptBR })}</Text>
-          </VStack>
-        </Avatar>
+        <EventDate startAt={event.startAt} endAt={event.endsAt} />
       </HStack>
-      <ScrollView>
-        <VStack space={space[40]}>
-          <Heading>{event.name}</Heading>
-
+      <ParallaxScrollView
+        stickyHeaderHeight={STICKY_HEADER_HEIGHT}
+        parallaxHeaderHeight={PARALLAX_HEADER_HEIGHT}
+        renderBackground={() => (
+          <View key="background">
+            <Image
+              source={{
+                uri: 'https://img.wallpapersafari.com/phone/640/1136/32/54/5x84kh.jpg',
+                width: window.width,
+                height: PARALLAX_HEADER_HEIGHT
+              }}
+              alt="Party background"
+            />
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                width: window.width,
+                backgroundColor: 'rgba(0,0,0,.5)',
+                height: PARALLAX_HEADER_HEIGHT
+              }}
+            />
+          </View>
+        )}
+        contentBackgroundColor={commonColors.background}
+        contentContainerStyle={styles.content}
+      >
+        <VStack space={space[3]}>
+          <Heading fontSize={fontSizes['4xl']}>{event.name}</Heading>
           <HStack justifyContent="space-between">
-            <HStack>
-              <Icon as={MaterialIcons} name="location-on" size="sm" />
-              <Text>{event.address}</Text>
+            <HStack alignItems="center" space={space['0.5']}>
+              <Icon color={commonColors.secondary[600]} as={MaterialIcons} name="location-on" size="lg" />
+              <Text fontSize="md" isTruncated maxW={Dimensions.get('window').width / 2}>
+                {event.address}
+              </Text>
             </HStack>
-            <HStack>
-              <Icon as={MaterialIcons} name="access-time" size="sm" />
-              <Text>{event.address}</Text>
+            <HStack alignItems="center" space={space['0.5']}>
+              <Icon color={commonColors.secondary[600]} as={MaterialIcons} name="access-time" size="lg" />
+              <Text fontSize="md">
+                {format(new Date(event.startAt), 'h')}h-{format(new Date(event.endsAt), 'h')}h
+              </Text>
             </HStack>
           </HStack>
-
-          <Button size="lg" variant="solid" onPress={() => handleGoToEvent()}>
+          <Button style={styles.button} size="lg" onPress={() => handleGoToEvent()}>
             BORA!
           </Button>
-
-          <VStack space={space[16]}>
+          <VStack space="xs">
             <Heading>Descrição</Heading>
-            <Text fontSize={fontSizes.xs}>{event.description}</Text>
+            <Text fontSize={fontSizes.md}>{event.description}</Text>
           </VStack>
         </VStack>
-      </ScrollView>
-    </Container>
+      </ParallaxScrollView>
+    </>
   )
 }
 
+const window = Dimensions.get('window')
+
+const PARALLAX_HEADER_HEIGHT = 350
+const STICKY_HEADER_HEIGHT = 70
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  stickyHeader: {
-    position: 'absolute',
-    top: 48,
-    width: Dimensions.get('window').width - 32,
-    left: 16
+  content: {
+    paddingVertical: space[8],
+    paddingHorizontal: space[8],
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderTopWidth: 3,
+    borderTopColor: commonColors.primary[600]
   },
   goButton: {
     width: '100%',
     fontWeight: 'bold',
     height: 48
+  },
+  button: {
+    backgroundColor: commonColors.primary[700],
+    borderRadius: 50,
+    fontWeight: 700
+  },
+  fixedSection: {
+    position: 'absolute',
+    top: 40,
+    width: Dimensions.get('window').width - 32,
+    left: 16,
+    zIndex: 99999
   }
 })
