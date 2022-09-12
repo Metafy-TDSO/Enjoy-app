@@ -1,3 +1,5 @@
+import { Creator } from './Creator.model'
+
 export interface Region {
   latitude: number
   longitude: number
@@ -15,4 +17,5 @@ export interface Event extends Region {
   imageUrl: string
   createdAt?: Date | null
   updatedAt?: Date | null
+  creator: Creator
 }
