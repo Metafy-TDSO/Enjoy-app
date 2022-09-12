@@ -1,5 +1,3 @@
-import 'dotenv/config'
-
 import { ExpoConfig, ConfigContext } from '@expo/config'
 
 const appName = 'Enjoy'

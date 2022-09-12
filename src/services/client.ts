@@ -1,5 +1,3 @@
-import 'dotenv/config'
-
 import { QueryClient } from 'react-query'
 import { Axios } from 'axios'
 import { io } from 'socket.io-client'
@@ -9,8 +7,8 @@ const { API_URL } = process.env
 export const queryClient = new QueryClient()
 
 export const apiClient = new Axios({
-  baseURL: API_URL || 'http://10.2.2:3000/',
-  timeout: 5000,
+  baseURL: API_URL || 'https://eventos-v1-api.herokuapp.com',
+  timeout: 10000,
   headers: {
     'Content-type': 'application/json'
   },
@@ -43,7 +41,7 @@ apiClient.interceptors.request.use(async config => {
   const newHeaders = {
     ...headers,
     Authorization:
-      'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikd1aWxoZXJtZSBWaWVpcmEiLCJlbWFpbCI6Imd1aXZwdzY4QGdtYWlsLmNvbSIsImF2YXRhclVybCI6bnVsbCwiaWF0IjoxNjYyNzc2MzAzLCJleHAiOjE2NjMzODExMDMsImlzcyI6Im1ldGFmeSJ9.856NsBCUS2OZuDgoWve-El9LmsxCXwpYM1CB1SZQ_H0'
+      'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikd1aWxoZXJtZSIsImVtYWlsIjoiZ3VpdnB3NjhAZ21haWwuY29tIiwiYXZhdGFyVXJsIjpudWxsLCJpYXQiOjE2NjI5OTk4MTYsImV4cCI6MTY2MzYwNDYxNiwiaXNzIjoibWV0YWZ5In0.0-DvqC2MgI48Bz8on6hon3ISPA0HyJIyxgVSiMbCtgY'
   }
 
   config.headers = newHeaders
@@ -51,10 +49,10 @@ apiClient.interceptors.request.use(async config => {
   return config
 })
 
-export const websocketClient = io(API_URL || 'http://127.0.0.1:3000/', {
+export const websocketClient = io(API_URL || 'https://eventos-v1-api.herokuapp.com', {
   extraHeaders: {
     // Mocked token for FIAP purposes
     Authorization:
-      'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikd1aWxoZXJtZSBWaWVpcmEiLCJlbWFpbCI6Imd1aXZwdzY4QGdtYWlsLmNvbSIsImF2YXRhclVybCI6bnVsbCwiaWF0IjoxNjYyNzc2MzAzLCJleHAiOjE2NjMzODExMDMsImlzcyI6Im1ldGFmeSJ9.856NsBCUS2OZuDgoWve-El9LmsxCXwpYM1CB1SZQ_H0'
+      'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikd1aWxoZXJtZSIsImVtYWlsIjoiZ3VpdnB3NjhAZ21haWwuY29tIiwiYXZhdGFyVXJsIjpudWxsLCJpYXQiOjE2NjI5OTk4MTYsImV4cCI6MTY2MzYwNDYxNiwiaXNzIjoibWV0YWZ5In0.0-DvqC2MgI48Bz8on6hon3ISPA0HyJIyxgVSiMbCtgY'
   }
 })
