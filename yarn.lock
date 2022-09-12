@@ -4069,7 +4069,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.18":
+"@types/react@npm:*":
   version: 18.0.18
   resolution: "@types/react@npm:18.0.18"
   dependencies:
@@ -4077,6 +4077,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 6d72d35ab3eecf382a5e0f225923f5a2c753045fce02e4e29713f36c99a24f0f770666a49dde96167f37c86271f93339d1b7e2b8969d011b137a9ebd24ee6806
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:~18.0.0":
+  version: 18.0.19
+  resolution: "@types/react@npm:18.0.19"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 7dc048f9a6a38176c4c64ecf7f4c24c732df118402d7f34a4ff1702984c06f040fae1457b1b98b7f447ca2a3392dea7d027a05782dfe1b350475606f82ce6d63
   languageName: node
   linkType: hard
 
@@ -4270,6 +4281,13 @@ __metadata:
   version: 0.7.5
   resolution: "@xmldom/xmldom@npm:0.7.5"
   checksum: 8d7ec35c1ef6183b4f621df08e01d7e61f244fb964a4719025e65fe6ac06fac418919be64fb40fe5908e69158ef728f2d936daa082db326fe04603012b5f2a84
+  languageName: node
+  linkType: hard
+
+"@yarnpkg/lockfile@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@yarnpkg/lockfile@npm:1.1.0"
+  checksum: 05b881b4866a3546861fee756e6d3812776ea47fa6eb7098f983d6d0eefa02e12b66c3fff931574120f196286a7ad4879ce02743c8bb2be36c6a576c7852083a
   languageName: node
   linkType: hard
 
@@ -6318,7 +6336,7 @@ __metadata:
     "@react-navigation/stack": ^6.2.3
     "@types/axios": ^0.14.0
     "@types/debounce": ^1.2.1
-    "@types/react": ^18.0.18
+    "@types/react": ~18.0.0
     "@types/react-native": ^0.69.6
     "@typescript-eslint/eslint-plugin": ^5.36.1
     "@typescript-eslint/parser": ^5.36.1
@@ -6352,6 +6370,8 @@ __metadata:
     expo-web-browser: ~11.0.0
     husky: ^8.0.1
     native-base: ^3.4.13
+    patch-package: ^6.4.7
+    postinstall-postinstall: ^2.1.0
     prettier: ^2.7.1
     react: 18.0.0
     react-dom: 18.0.0
@@ -6360,6 +6380,7 @@ __metadata:
     react-native-gesture-handler: ~2.5.0
     react-native-maps: 0.31.1
     react-native-maps-directions: ^1.9.0
+    react-native-parallax-scroll-view: ^0.21.3
     react-native-reanimated: ~2.9.1
     react-native-safe-area-context: 4.3.1
     react-native-screens: ~3.15.0
@@ -7350,7 +7371,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-yarn-workspace-root@npm:~2.0.0":
+"find-yarn-workspace-root@npm:^2.0.0, find-yarn-workspace-root@npm:~2.0.0":
   version: 2.0.0
   resolution: "find-yarn-workspace-root@npm:2.0.0"
   dependencies:
@@ -7490,6 +7511,17 @@ __metadata:
     jsonfile: ^6.0.1
     universalify: ^2.0.0
   checksum: dc94ab37096f813cc3ca12f0f1b5ad6744dfed9ed21e953d72530d103cea193c2f81584a39e9dee1bea36de5ee66805678c0dddc048e8af1427ac19c00fffc50
+  languageName: node
+  linkType: hard
+
+"fs-extra@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "fs-extra@npm:7.0.1"
+  dependencies:
+    graceful-fs: ^4.1.2
+    jsonfile: ^4.0.0
+    universalify: ^0.1.0
+  checksum: 141b9dccb23b66a66cefdd81f4cda959ff89282b1d721b98cea19ba08db3dcbe6f862f28841f3cf24bb299e0b7e6c42303908f65093cb7e201708e86ea5a8dcf
   languageName: node
   linkType: hard
 
@@ -8381,6 +8413,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-ci@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "is-ci@npm:2.0.0"
+  dependencies:
+    ci-info: ^2.0.0
+  bin:
+    is-ci: bin.js
+  checksum: 77b869057510f3efa439bbb36e9be429d53b3f51abd4776eeea79ab3b221337fe1753d1e50058a9e2c650d38246108beffb15ccfd443929d77748d8c0cc90144
+  languageName: node
+  linkType: hard
+
 "is-core-module@npm:^2.10.0, is-core-module@npm:^2.5.0, is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
   version: 2.10.0
   resolution: "is-core-module@npm:2.10.0"
@@ -8722,7 +8765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-wsl@npm:^2.2.0":
+"is-wsl@npm:^2.1.1, is-wsl@npm:^2.2.0":
   version: 2.2.0
   resolution: "is-wsl@npm:2.2.0"
   dependencies:
@@ -9142,6 +9185,15 @@ __metadata:
   version: 6.0.3
   resolution: "kind-of@npm:6.0.3"
   checksum: 3ab01e7b1d440b22fe4c31f23d8d38b4d9b91d9f291df683476576493d5dfd2e03848a8b05813dd0c3f0e835bc63f433007ddeceb71f05cb25c45ae1b19c6d3b
+  languageName: node
+  linkType: hard
+
+"klaw-sync@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "klaw-sync@npm:6.0.0"
+  dependencies:
+    graceful-fs: ^4.1.11
+  checksum: 0da397f8961313c3ef8f79fb63af9002cde5a8fb2aeb1a37351feff0dd6006129c790400c3f5c3b4e757bedcabb13d21ec0a5eaef5a593d59515d4f2c291e475
   languageName: node
   linkType: hard
 
@@ -10666,6 +10718,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"open@npm:^7.4.2":
+  version: 7.4.2
+  resolution: "open@npm:7.4.2"
+  dependencies:
+    is-docker: ^2.0.0
+    is-wsl: ^2.1.1
+  checksum: 3333900ec0e420d64c23b831bc3467e57031461d843c801f569b2204a1acc3cd7b3ec3c7897afc9dde86491dfa289708eb92bba164093d8bd88fb2c231843c91
+  languageName: node
+  linkType: hard
+
 "open@npm:^8.0.4, open@npm:^8.3.0, open@npm:^8.4.0":
   version: 8.4.0
   resolution: "open@npm:8.4.0"
@@ -10878,6 +10940,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"patch-package@npm:^6.4.7":
+  version: 6.4.7
+  resolution: "patch-package@npm:6.4.7"
+  dependencies:
+    "@yarnpkg/lockfile": ^1.1.0
+    chalk: ^2.4.2
+    cross-spawn: ^6.0.5
+    find-yarn-workspace-root: ^2.0.0
+    fs-extra: ^7.0.1
+    is-ci: ^2.0.0
+    klaw-sync: ^6.0.0
+    minimist: ^1.2.0
+    open: ^7.4.2
+    rimraf: ^2.6.3
+    semver: ^5.6.0
+    slash: ^2.0.0
+    tmp: ^0.0.33
+  bin:
+    patch-package: index.js
+  checksum: f36d5324da3b69ee635e7cd2c68f4d3dd89dc91d60ffdaad3b602fd953277f4da901c91033683bf6ff31c14799bc049849af3a389455c25d0435fe9cfb0d4088
+  languageName: node
+  linkType: hard
+
 "path-browserify@npm:^1.0.0":
   version: 1.0.1
   resolution: "path-browserify@npm:1.0.1"
@@ -11015,6 +11100,13 @@ __metadata:
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: 819ffab0c9d51cf0acbabf8996dffbfafbafa57afc0e4c98db88b67f2094cb44488758f06e5da95d7036f19556a4a732525e84289a425f4f6fd8e412a9d7442f
+  languageName: node
+  linkType: hard
+
+"postinstall-postinstall@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "postinstall-postinstall@npm:2.1.0"
+  checksum: e1d34252cf8d2c5641c7d2db7426ec96e3d7a975f01c174c68f09ef5b8327bc8d5a9aa2001a45e693db2cdbf69577094d3fe6597b564ad2d2202b65fba76134b
   languageName: node
   linkType: hard
 
@@ -11413,6 +11505,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-parallax-scroll-view@npm:0.21.3":
+  version: 0.21.3
+  resolution: "react-native-parallax-scroll-view@npm:0.21.3"
+  dependencies:
+    prop-types: ^15.6.0
+  checksum: 0a4507dac486bef0322303268b3262e6ffc38dd62292e132a76e21cd7cd3b27c4f38075be6e82bcaf2656af23010cf1535bdcffd72d067e883a9db664f34165f
+  languageName: node
+  linkType: hard
+
+"react-native-parallax-scroll-view@patch:react-native-parallax-scroll-view@npm%3A0.21.3#./.yarn/patches/react-native-parallax-scroll-view-npm-0.21.3-170979d93c.patch::locator=enjoy%40workspace%3A.":
+  version: 0.21.3
+  resolution: "react-native-parallax-scroll-view@patch:react-native-parallax-scroll-view@npm%3A0.21.3#./.yarn/patches/react-native-parallax-scroll-view-npm-0.21.3-170979d93c.patch::version=0.21.3&hash=665f0b&locator=enjoy%40workspace%3A."
+  dependencies:
+    prop-types: ^15.6.0
+  checksum: fab726c6e548c6edccbfe8a33d2789f541ae51c7b5bbe49329ef020e4c6a507213becbac82c13d4a39fe531f02b782efc4b544c6f0297b90c0462b5de705983a
+  languageName: node
+  linkType: hard
+
 "react-native-reanimated@npm:~2.9.1":
   version: 2.9.1
   resolution: "react-native-reanimated@npm:2.9.1"
@@ -11529,6 +11639,51 @@ __metadata:
   bin:
     react-native: cli.js
   checksum: 4f7cfcd0d614cc6fe897a49197bd036210625c5eb547342ac7ebea45ab5febae73d6a9a7438f08f454d1e02c2e041b3f910461c4a6e5c6e0e44f5cfe70405990
+  languageName: node
+  linkType: hard
+
+"react-native@patch:react-native@npm%3A0.69.5#./.yarn/patches/react-native-npm-0.69.5-195a94fef6.patch::locator=enjoy%40workspace%3A.":
+  version: 0.69.5
+  resolution: "react-native@patch:react-native@npm%3A0.69.5#./.yarn/patches/react-native-npm-0.69.5-195a94fef6.patch::version=0.69.5&hash=caba56&locator=enjoy%40workspace%3A."
+  dependencies:
+    "@jest/create-cache-key-function": ^27.0.1
+    "@react-native-community/cli": ^8.0.4
+    "@react-native-community/cli-platform-android": ^8.0.4
+    "@react-native-community/cli-platform-ios": ^8.0.4
+    "@react-native/assets": 1.0.0
+    "@react-native/normalize-color": 2.0.0
+    "@react-native/polyfills": 2.0.0
+    abort-controller: ^3.0.0
+    anser: ^1.4.9
+    base64-js: ^1.1.2
+    event-target-shim: ^5.0.1
+    hermes-engine: ~0.11.0
+    invariant: ^2.2.4
+    jsc-android: ^250230.2.1
+    memoize-one: ^5.0.0
+    metro-react-native-babel-transformer: 0.70.3
+    metro-runtime: 0.70.3
+    metro-source-map: 0.70.3
+    mkdirp: ^0.5.1
+    nullthrows: ^1.1.1
+    pretty-format: ^26.5.2
+    promise: ^8.0.3
+    react-devtools-core: 4.24.0
+    react-native-codegen: ^0.69.2
+    react-native-gradle-plugin: ^0.0.7
+    react-refresh: ^0.4.0
+    react-shallow-renderer: 16.15.0
+    regenerator-runtime: ^0.13.2
+    scheduler: ^0.21.0
+    stacktrace-parser: ^0.1.3
+    use-sync-external-store: ^1.0.0
+    whatwg-fetch: ^3.0.0
+    ws: ^6.1.4
+  peerDependencies:
+    react: 18.0.0
+  bin:
+    react-native: cli.js
+  checksum: d3ec1e1e7749a74ea64286dff9e91b4f08890a4ed06629bb73bd31f6d27e140497924923cc3f7337eab087a14aaee45012af24ad196bdd9f296d17632e18b69d
   languageName: node
   linkType: hard
 
@@ -11994,7 +12149,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^2.5.4, rimraf@npm:^2.6.2":
+"rimraf@npm:^2.5.4, rimraf@npm:^2.6.2, rimraf@npm:^2.6.3":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
   dependencies:
@@ -12333,6 +12488,13 @@ __metadata:
   version: 1.0.5
   resolution: "sisteransi@npm:1.0.5"
   checksum: aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
+  languageName: node
+  linkType: hard
+
+"slash@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "slash@npm:2.0.0"
+  checksum: 512d4350735375bd11647233cb0e2f93beca6f53441015eea241fe784d8068281c3987fbaa93e7ef1c38df68d9c60013045c92837423c69115297d6169aa85e6
   languageName: node
   linkType: hard
 

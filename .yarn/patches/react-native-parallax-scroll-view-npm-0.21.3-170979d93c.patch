@@ -1,0 +1,39 @@
+diff --git a/index.d.ts b/index.d.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..e5868dccc8aef4f0aeb2ffebf6b8b3f5e8180fcd
+--- /dev/null
++++ b/index.d.ts
+@@ -0,0 +1,33 @@
++import * as React from "react"
++
++declare class ParallaxScrollView extends React.Component<React.PropsWithChildren<ParallaxScrollViewProps>, {}> {}
++
++export interface ParallaxScrollViewProps {
++	backgroundScrollSpeed?: number
++	backgroundColor?: string
++	contentBackgroundColor?: string
++	fadeOutForeground?: boolean
++	onChangeHeaderVisibility?: (value: boolean) => void
++	renderScrollComponent?: (props: any) => JSX.Element
++	renderBackground?: (params: RenderBackgroundParams) => JSX.Element
++	renderForeground?: () => JSX.Element
++	renderFixedHeader?: () => JSX.Element
++	renderStickyHeader?: () => JSX.Element
++	stickyHeaderHeight?: number
++	contentContainerStyle?: any
++	outputScaleValue?: number
++	style?: any
++	parallaxHeaderHeight?: number
++}
++
++export class RenderBackgroundParams {
++	fadeOutForeground: any
++	backgroundScrollSpeed: number
++	backgroundColor: string
++	parallaxHeaderHeight: number
++	stickyHeaderHeight: number
++	renderBackground: () => void
++	outputScaleValue: number
++}
++
++export default ParallaxScrollView
