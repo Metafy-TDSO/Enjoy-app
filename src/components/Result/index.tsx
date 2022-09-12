@@ -32,7 +32,7 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
     <TouchableNativeFeedback onPress={() => onPress(id)}>
       <Box width="100%" borderColor="muted.800" pl={['0', '4']} pr={['0', '5']} py="6px" key={id}>
         <HStack space={[2, 3]}>
-          <VStack justifyContent="center" alignItems="center" paddingRight={space['0.5']}>
+          <VStack justifyContent="center" alignItems="center" paddingRight={space['0.5']} minW={60}>
             {imageUrl ? (
               <Avatar
                 size="40px"
@@ -42,11 +42,11 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
                 style={styles.resultAvatar}
               />
             ) : (
-              <Avatar size="40px" backgroundColor="gray.700">
+              <Avatar size="40px" marginBottom={0.5} backgroundColor="gray.700">
                 <Icon as={MaterialIcons} name="access-time" size="sm" color={commonColors.white} />
               </Avatar>
             )}
-            {distance ? (
+            {distance && (
               <Text
                 _dark={{
                   color: 'warmGray.50'
@@ -55,7 +55,7 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
               >
                 {distance.toFixed(2)} km
               </Text>
-            ) : null}
+            )}
           </VStack>
           <VStack justifyContent="center">
             <HStack>
@@ -63,9 +63,11 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
                 return part.highlight ? <Text bold>{part.text}</Text> : <Text>{part.text}</Text>
               })}
             </HStack>
-            <Text fontSize={fontSizes.xs} _dark={{ color: commonColors.subText }}>
-              {address}
-            </Text>
+            {address && (
+              <Text fontSize={fontSizes.xs} _dark={{ color: commonColors.subText }}>
+                {address}
+              </Text>
+            )}
           </VStack>
         </HStack>
       </Box>
