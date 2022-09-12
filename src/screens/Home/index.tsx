@@ -1,6 +1,6 @@
-import { Center, Container, Input, Spinner } from 'native-base'
 import { useEffect, useRef, useState } from 'react'
 import { Dimensions, StyleSheet, Alert } from 'react-native'
+import { Center, Container, Input, ScrollView, Spinner } from 'native-base'
 import MapView, { Region, PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location'
 import { useQuery } from 'react-query'
@@ -13,6 +13,7 @@ import { websocketClient } from '~services/client'
 import { Event } from '~services/models'
 import { getEventById } from '~services/api'
 import { DirectionsTab } from '~components/NavigationTab'
+import { EventCard } from '~components/EventCard'
 
 import mapStyle from './map.style.json'
 
@@ -79,6 +80,10 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
     setNavigationState(undefined)
   }
 
+  const handlePressEvent = (event: Event) => {
+    navigation.navigate('EventDetails', { event })
+  }
+
   return (
     <Center>
       {isLoading && (
@@ -88,6 +93,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
       )}
       <Container style={styles.searchContainer}>
         <Input
+          variant="unstyled"
           placeholder="Ex: festa sleepover, pandora, arena..."
           onPressIn={() => navigation.navigate('Search', { currentLocation: position })}
           fontSize={fontSizes.xs}
@@ -100,6 +106,10 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
         provider={PROVIDER_GOOGLE}
         customMapStyle={mapStyle}
         ref={mapEl}
+        showsBuildings={false}
+        showsIndoors={false}
+        cacheEnabled
+        loadingEnabled={position.latitude === 0}
       >
         {isNavigating && navigationData?.event && (
           <MapViewDirections
@@ -130,9 +140,8 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
                 latitude: event.latitude,
                 longitude: event.longitude
               }}
-              title={event.name}
-              description={event.description}
-              onPress={() => navigation.navigate('EventDetails', { event })}
+              icon={require('~assets/marker.png')}
+              onPress={() => handlePressEvent(event)}
             />
           ))}
       </MapView>
@@ -142,6 +151,18 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
           {...navigationState}
           onCancel={handleCancelNavigation}
         />
+      )}
+      {!isNavigating && (
+        <ScrollView horizontal style={styles.nearEventsList}>
+          {nearEvents?.map(event => (
+            <EventCard
+              key={event.id}
+              currentLocation={position}
+              event={event}
+              onPress={() => handlePressEvent(event)}
+            />
+          ))}
+        </ScrollView>
       )}
     </Center>
   )
@@ -168,5 +189,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center'
+  },
+  nearEventsList: {
+    position: 'absolute',
+    bottom: 32
   }
 })

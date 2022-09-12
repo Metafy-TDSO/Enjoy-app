@@ -13,6 +13,11 @@ import { CloseButton } from '~components/CloseButton'
 export type EventDetailsProps = NativeStackScreenProps<RootStackParamList, 'EventDetails'>
 
 export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
+  if (!route.params.event) {
+    navigation.navigate('Home')
+    return null
+  }
+
   const { event } = route.params
 
   const handleClose = () => {
@@ -66,6 +71,9 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
   stickyHeader: {
     position: 'absolute',
     top: 48,
