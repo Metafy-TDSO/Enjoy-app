@@ -8,12 +8,13 @@ import MapViewDirections from 'react-native-maps-directions'
 import { BlurView } from 'expo-blur'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { commonColors, GOOGLE_MAPS_APIKEY } from '~constants'
+import { commonColors } from '~constants'
 import { websocketClient } from '~services/client'
 import { Event } from '~services/models'
-import { getEventById } from '~services/api'
-import { DirectionsTab } from '~components/NavigationTab'
+import { getEventById, getManyEvents } from '~services/api'
+import { DirectionsTab } from '~components/DirectionsTab'
 import { EventCard } from '~components/EventCard'
+import { EventMarker } from '~components/EventMarker'
 
 import mapStyle from './map.style.json'
 
@@ -22,15 +23,35 @@ const deltas = {
   longitudeDelta: 0.0421
 }
 
+const initialPosition = {
+  latitude: -23.563714,
+  longitude: -46.654485
+}
+
 export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>
 
 export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element => {
   const eventId = route.params?.eventId
 
-  const [position, setPosition] = useState<Region>({ latitude: 1, longitude: 1, ...deltas })
-  const { data: navigationData, isLoading } = useQuery(['navigation event'], () =>
-    eventId ? getEventById(eventId) : null
+  const [position, setPosition] = useState<Region>({
+    ...initialPosition,
+    ...deltas
+  })
+  const {
+    data: navigationData,
+    isLoading,
+    refetch
+  } = useQuery(['navigation event'], () => (eventId ? getEventById(eventId) : null), { enabled: false })
+  const { data: lastThreeEvents } = useQuery(['many events'], () =>
+    getManyEvents({
+      limit: 3,
+      latitude: position.latitude,
+      longitude: position.longitude,
+      kilometers: 15,
+      page: 1
+    })
   )
+
   const [nearEvents, setNearEvents] = useState<Event[]>([])
   const mapEl = useRef<MapView>(null)
   const [initialDistance, setInitialDistance] = useState<number>()
@@ -50,16 +71,15 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
 
       const { latitude, longitude } = currentPosition.coords
 
-      setPosition({ latitude, longitude, ...deltas })
+      // setPosition({ latitude, longitude, ...deltas })
     }
 
     loadPosition()
   }, [])
 
   useEffect(() => {
-    websocketClient.on('server:event:search-near', (events: Event[]) => {
-      const newEvents = [...nearEvents, ...events]
-      setNearEvents(newEvents)
+    websocketClient.once('server:event:search-near', (response: { events: Event[] }) => {
+      setNearEvents(response.events)
     })
 
     return () => {
@@ -67,18 +87,34 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
     }
   }, [])
 
+  console.log({ navigationData, eventId, isNavigating, isLoading })
   useEffect(() => {
-    setInterval(() => {
-      if (position.latitude > 0 && position.longitude > 0) {
-        websocketClient.emit('client:event:search-near', position)
-      }
-    }, 2000)
+    websocketClient.emit('client:event:search-near', position)
   }, [])
+
+  useEffect(() => {
+    if (eventId) {
+      console.log('is navigating', eventId)
+      setIsNavigating(true)
+      refetch()
+    }
+  }, [eventId])
+
+  useEffect(() => {
+    if (navigationData?.event) {
+      setPosition({
+        latitude: navigationData.event.latitude,
+        longitude: navigationData.event.longitude,
+        ...deltas
+      })
+    }
+  }, [navigationData?.event])
 
   const handleCancelNavigation = () => {
     setIsNavigating(false)
     setInitialDistance(undefined)
     setNavigationState(undefined)
+    navigation.setParams({ eventId: null })
   }
 
   const handlePressEvent = (event: Event) => {
@@ -109,19 +145,21 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
         cacheEnabled
         showsUserLocation
         followsUserLocation
-        loadingEnabled={position.latitude === 0}
+        loadingEnabled={Object.values(position) === Object.values({ ...initialPosition, ...deltas })}
       >
         {isNavigating && navigationData?.event && (
           <MapViewDirections
             origin={position}
             destination={{
-              latitude: navigationData.event.latitude,
-              longitude: navigationData.event.longitude
+              latitude: +navigationData.event.latitude,
+              longitude: +navigationData.event.longitude
             }}
-            apikey={GOOGLE_MAPS_APIKEY}
+            apikey="AIzaSyCJr5eb7ScccyD3PY0_1ApgtAtdl_Wu6OY"
             strokeWidth={3}
             strokeColor={commonColors.secondary[600]}
             language="pt-br"
+            mode="DRIVING"
+            lineCap="round"
             onReady={result => {
               mapEl.current?.fitToCoordinates(result.coordinates, {
                 edgePadding: { top: 50, bottom: 50, left: 50, right: 50 }
@@ -132,19 +170,18 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
             }}
           />
         )}
-        {!isNavigating &&
-          nearEvents.map(event => (
-            <Marker
-              key={event.id}
-              coordinate={{
-                latitude: event.latitude,
-                longitude: event.longitude
-              }}
-              title="asdasd"
-              // icon={require('~assets/marker.png')}
-              onPress={() => handlePressEvent(event)}
-            />
-          ))}
+        {nearEvents.map(event => (
+          <Marker
+            key={event.id}
+            coordinate={{
+              latitude: +event.latitude,
+              longitude: +event.longitude
+            }}
+            onPress={() => handlePressEvent(event)}
+          >
+            <EventMarker event={event} />
+          </Marker>
+        ))}
       </MapView>
       {isNavigating && !navigationData?.event && navigationState && initialDistance && (
         <DirectionsTab
@@ -153,9 +190,9 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
           onCancel={handleCancelNavigation}
         />
       )}
-      {!isNavigating && (
+      {!isNavigating && lastThreeEvents?.events && (
         <ScrollView horizontal style={styles.nearEventsList}>
-          {nearEvents.map(event => (
+          {lastThreeEvents.events.map(event => (
             <EventCard
               key={event.id}
               currentLocation={position}
@@ -164,6 +201,14 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
             />
           ))}
         </ScrollView>
+      )}
+      {isNavigating && navigationState && initialDistance && (
+        <DirectionsTab
+          distance={navigationState.distance}
+          initialDistance={initialDistance}
+          duration={navigationState.duration}
+          onCancel={() => handleCancelNavigation()}
+        />
       )}
     </Center>
   )

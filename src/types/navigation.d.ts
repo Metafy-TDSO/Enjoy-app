@@ -2,7 +2,7 @@ import type { Event, Region } from '~services/models'
 
 declare global {
   type HomeStackParamList = {
-    Home: { eventId?: number } | undefined
+    Home: { eventId?: number | null } | undefined
     EventDetails: { event: Event }
     Search: {
       currentLocation: Region
