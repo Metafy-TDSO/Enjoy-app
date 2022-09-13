@@ -1,10 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native'
 import { HStack, Icon, Progress, Text, View, VStack } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
-/* eslint-disable import/no-duplicates */
-import { formatDuration } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-/* eslint-enable import/no-duplicates */
 
 import { CloseButton } from '~components/CloseButton'
 import { commonColors, fontSizes, space } from '~constants'
@@ -22,7 +18,6 @@ export const DirectionsTab = ({
   duration,
   initialDistance
 }: DirectionsTabProps) => {
-  console.log({ currentDistance, duration, initialDistance })
   return (
     <View style={styles.tabContainer}>
       <VStack style={styles.container} space={space[1]}>
@@ -37,7 +32,7 @@ export const DirectionsTab = ({
           <HStack alignItems="center" space="4px">
             <Icon color="white" as={MaterialIcons} name="access-time" size="lg" />
             <Text bold fontSize={fontSizes.md}>
-              {formatDuration({ minutes: duration }, { locale: ptBR, format: ['m', 's'] })}
+              {Math.round(duration)}m
             </Text>
           </HStack>
         </HStack>
