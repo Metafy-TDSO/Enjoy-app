@@ -1,9 +1,9 @@
 import { MaterialIcons } from '@expo/vector-icons'
 import { format } from 'date-fns'
-import { Avatar, Container, HStack, Icon, Text, VStack } from 'native-base'
-import { ImageBackground, StyleSheet, TouchableNativeFeedback } from 'react-native'
+import { Avatar, Box, Container, HStack, Icon, Text, View, VStack } from 'native-base'
+import { Dimensions, ImageBackground, StyleSheet, TouchableNativeFeedback } from 'react-native'
 
-import { fontSizes } from '~constants'
+import { commonColors, fontSizes } from '~constants'
 import { Event, Region } from '~services/models'
 import { calcCrow } from '~utils/calcCrow'
 
@@ -13,6 +13,9 @@ export interface EventCardProps {
   onPress: (id: number) => void
 }
 
+const CARD_HEIGHT = 160
+const CARD_WIDTH = Dimensions.get('window').width - 70
+
 export const EventCard = ({
   event: { latitude, longitude, id, name, address, startAt, endsAt, imageUrl, creator },
   currentLocation,
@@ -20,43 +23,63 @@ export const EventCard = ({
 }: EventCardProps) => {
   return (
     <TouchableNativeFeedback onPress={() => onPress(id)}>
-      <Container>
+      <Container style={styles.container}>
         <ImageBackground
           source={{ uri: imageUrl }}
           blurRadius={5}
           resizeMode="cover"
           style={styles.imageBackground}
+          imageStyle={{ borderRadius: 16 }}
         >
-          <HStack>
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              width: CARD_WIDTH - 16,
+              backgroundColor: 'rgba(0,0,0,.3)',
+              height: '100%'
+            }}
+          />
+          <HStack style={{ paddingVertical: 8 }}>
             {creator.user.avatarUrl ? (
-              <Avatar source={{ uri: creator.user.avatarUrl }} width="28px" height="28px" />
-            ) : (
-              <></>
-            )}
+              <Box flexShrink={1} justifyContent="center">
+                <Avatar
+                  source={{ uri: creator.user.avatarUrl }}
+                  width={fontSizes['2xs']}
+                  height={fontSizes['2xs']}
+                />
+              </Box>
+            ) : null}
             <VStack ml={1}>
-              <Text bold>{name}</Text>
-              <Text fontSize={fontSizes['2xs']} color="gray.400">
+              <Text bold fontSize={fontSizes['lg']}>
+                {name}
+              </Text>
+              <Text fontSize={fontSizes['md']} color="white">
                 {creator.user.name}
               </Text>
-              <Text></Text>
             </VStack>
           </HStack>
 
-          <HStack>
-            <HStack space="4px">
-              <Icon as={<MaterialIcons name="access-time" />} size="sm" />
+          <HStack style={{ paddingVertical: 8 }} space="8px">
+            <HStack space="6px" alignItems="center">
+              <Icon as={<MaterialIcons name="access-time" />} color="white" size="sm" />
               <Text>
-                {format(startAt, 'h')} - {format(endsAt, 'h')}
+                {format(new Date(startAt), 'h')}h - {format(new Date(endsAt), 'h')}h
               </Text>
             </HStack>
-            <HStack space="4px">
-              <Icon as={<MaterialIcons name="location-on" />} size="sm" />
-              <Text>{address}</Text>
+            <HStack space="6px" alignItems="center">
+              <Icon as={<MaterialIcons name="location-on" />} color="white" size="sm" />
+              <Text isTruncated maxW="120px">
+                {address}
+              </Text>
             </HStack>
-            <HStack space="4px">
-              <Icon as={<MaterialIcons name="my-location" />} size="sm" />
+            <HStack space="6px" alignItems="center">
+              <Icon as={<MaterialIcons name="my-location" />} color="white" size="sm" />
               <Text>
-                {calcCrow(latitude, longitude, currentLocation.latitude, currentLocation.longitude)}km
+                {calcCrow(latitude, longitude, currentLocation.latitude, currentLocation.longitude).toFixed(
+                  1
+                )}
+                km
               </Text>
             </HStack>
           </HStack>
@@ -68,8 +91,17 @@ export const EventCard = ({
 
 export const styles = StyleSheet.create({
   imageBackground: {
-    paddingX: '16px',
-    paddingY: '8px',
-    justifyContent: 'space-between'
+    paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    borderRadius: 16,
+    height: '100%',
+    borderWidth: 2,
+    borderColor: commonColors.secondary[600]
+  },
+  container: {
+    width: CARD_WIDTH,
+    borderRadius: 16,
+    marginHorizontal: 24,
+    height: CARD_HEIGHT
   }
 })
