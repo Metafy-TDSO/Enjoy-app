@@ -73,31 +73,32 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
       <Box style={styles.searchContainer}>
         <SearchBar onGoBack={handleGoBack} value={search} handleChangeText={updateSearch} />
       </Box>
-      {isLoading && (
-        <Center width="100%" style={styles.resultList}>
-          <Spinner size="lg" />
-        </Center>
-      )}
-      {!isLoading && search.length < 3 && (
+      {(!data?.events || data?.events.length === 0) && search === '' ? (
         <FlatList
           style={styles.resultList}
           data={recentSearches}
           ItemSeparatorComponent={() => <Divider marginBottom={space[0.5]} />}
           renderItem={({ item, index: key }) => (
             <Result
+              key={key}
               onPress={() => handlePressRecentSearch(item)}
               event={{ name: item, id: key }}
               search={search}
             />
           )}
         />
-      )}
-      {data?.events.length === 0 && (
+      ) : null}
+      {isLoading ? (
         <Center width="100%" style={styles.resultList}>
-          <Text>No results found</Text>
+          <Spinner size="lg" />
         </Center>
-      )}
-      {data?.events && data.events.length > 0 && (
+      ) : null}
+      {data?.events.length === 0 && search !== '' ? (
+        <Center width="100%" style={styles.resultList}>
+          <Text>Nenhum resultado encontrado</Text>
+        </Center>
+      ) : null}
+      {search.length > 3 && data?.events && data.events.length > 0 ? (
         <FlatList
           style={styles.resultList}
           data={data?.events}
@@ -115,7 +116,7 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
           )}
           keyExtractor={item => item.id.toString()}
         />
-      )}
+      ) : null}
     </Container>
   )
 }
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
   },
   resultList: {
     marginTop: space[2],
-    width: Dimensions.get('window').width - 36
+    width: Dimensions.get('window').width - 36,
+    height: Dimensions.get('window').height - 200
   }
 })
