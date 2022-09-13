@@ -18,6 +18,6 @@ export const getManyEvents = async (params: FindManyEventsDto): Promise<{ events
 }
 
 export const getEventById = async (id: number): Promise<{ event: Event }> => {
-  const result = await apiClient.get('/events', { params: { id } })
+  const result = await apiClient.get(`/events/${id}`)
   return result.data
 }
