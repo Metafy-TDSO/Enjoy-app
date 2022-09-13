@@ -7,31 +7,41 @@ import { ptBR } from 'date-fns/locale'
 /* eslint-enable import/no-duplicates */
 
 import { CloseButton } from '~components/CloseButton'
-import { commonColors } from '~constants'
+import { commonColors, fontSizes, space } from '~constants'
 
 interface DirectionsTabProps {
   initialDistance: number
-  distance: number
+  currentDistance: number
   duration: number
   onCancel: () => void
 }
 
-export const DirectionsTab = ({ onCancel, distance, duration, initialDistance }: DirectionsTabProps) => {
+export const DirectionsTab = ({
+  onCancel,
+  currentDistance,
+  duration,
+  initialDistance
+}: DirectionsTabProps) => {
+  console.log({ currentDistance, duration, initialDistance })
   return (
-    <View style={styles.tabContainer} alignItems="center">
-      <VStack>
+    <View style={styles.tabContainer}>
+      <VStack style={styles.container} space={space[1]}>
         <CloseButton onClose={onCancel} avatarProps={{ style: styles.closeButton }} />
-        <HStack justifyContent="space-between">
-          <HStack>
-            <Icon as={MaterialIcons} name="location-on" size="sm" />
-            <Text>{distance}</Text>
+        <HStack justifyContent="center" space={space[1]}>
+          <HStack alignItems="center" space="4px">
+            <Icon color="white" as={MaterialIcons} name="location-on" size="lg" />
+            <Text bold fontSize={fontSizes.md}>
+              {currentDistance.toFixed(2)}km
+            </Text>
           </HStack>
-          <HStack>
-            <Icon as={MaterialIcons} name="access-time" size="sm" />
-            <Text>{formatDuration({ minutes: duration }, { locale: ptBR, format: ['m', 's'] })}</Text>
+          <HStack alignItems="center" space="4px">
+            <Icon color="white" as={MaterialIcons} name="access-time" size="lg" />
+            <Text bold fontSize={fontSizes.md}>
+              {formatDuration({ minutes: duration }, { locale: ptBR, format: ['m', 's'] })}
+            </Text>
           </HStack>
         </HStack>
-        <Progress value={(distance / initialDistance) * 100} />
+        <Progress value={((initialDistance - currentDistance) / initialDistance) * 100} />
       </VStack>
     </View>
   )
@@ -45,9 +55,14 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    backgroundColor: commonColors.primary[500]
+    backgroundColor: commonColors.primary[700]
+  },
+  container: {
+    paddingHorizontal: space[4],
+    flex: 1
   },
   closeButton: {
-    marginTop: -32
+    alignSelf: 'center',
+    marginTop: -24
   }
 })

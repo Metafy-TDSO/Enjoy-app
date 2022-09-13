@@ -55,7 +55,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
   const [nearEvents, setNearEvents] = useState<Event[]>([])
   const mapEl = useRef<MapView>(null)
   const [initialDistance, setInitialDistance] = useState<number>()
-  const [navigationState, setNavigationState] = useState<{ distance: number; duration: number }>()
+  const [navigationState, setNavigationState] = useState<{ currentDistance: number; duration: number }>()
   const [isNavigating, setIsNavigating] = useState<boolean>(Boolean(eventId))
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
 
       const { latitude, longitude } = currentPosition.coords
 
-      // setPosition({ latitude, longitude, ...deltas })
+      setPosition({ latitude, longitude, ...deltas })
     }
 
     loadPosition()
@@ -87,7 +87,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
     }
   }, [])
 
-  console.log({ navigationData, eventId, isNavigating, isLoading })
+  console.log({ navigationData, navigationState, eventId, isNavigating, isLoading })
   useEffect(() => {
     websocketClient.emit('client:event:search-near', position)
   }, [])
@@ -103,8 +103,8 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
   useEffect(() => {
     if (navigationData?.event) {
       setPosition({
-        latitude: navigationData.event.latitude,
-        longitude: navigationData.event.longitude,
+        latitude: +navigationData.event.latitude,
+        longitude: +navigationData.event.longitude,
         ...deltas
       })
     }
@@ -143,6 +143,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
         showsBuildings={false}
         showsIndoors={false}
         cacheEnabled
+        userLocationPriority="balanced"
         showsUserLocation
         followsUserLocation
         loadingEnabled={Object.values(position) === Object.values({ ...initialPosition, ...deltas })}
@@ -154,19 +155,27 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
               latitude: +navigationData.event.latitude,
               longitude: +navigationData.event.longitude
             }}
+            // Mocked for FIAP purposes
             apikey="AIzaSyCJr5eb7ScccyD3PY0_1ApgtAtdl_Wu6OY"
-            strokeWidth={3}
+            strokeWidth={5}
             strokeColor={commonColors.secondary[600]}
             language="pt-br"
             mode="DRIVING"
             lineCap="round"
+            lineJoin="round"
+            onError={error => {
+              console.error(error)
+              handleCancelNavigation()
+            }}
             onReady={result => {
               mapEl.current?.fitToCoordinates(result.coordinates, {
                 edgePadding: { top: 50, bottom: 50, left: 50, right: 50 }
               })
-              setInitialDistance(result.distance)
+              if (!initialDistance) {
+                setInitialDistance(result.distance)
+              }
               // distance = kms, duration = minutes
-              setNavigationState({ distance: result.distance, duration: result.duration })
+              setNavigationState({ currentDistance: result.distance, duration: result.duration })
             }}
           />
         )}
@@ -177,16 +186,17 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
               latitude: +event.latitude,
               longitude: +event.longitude
             }}
+            pinColor="red"
             onPress={() => handlePressEvent(event)}
           >
-            <EventMarker event={event} />
+            <EventMarker event={event} isSelected={event.id === eventId} />
           </Marker>
         ))}
       </MapView>
-      {isNavigating && !navigationData?.event && navigationState && initialDistance && (
+      {isNavigating && navigationData?.event && navigationState && initialDistance && (
         <DirectionsTab
-          initialDistance={initialDistance}
           {...navigationState}
+          initialDistance={initialDistance}
           onCancel={handleCancelNavigation}
         />
       )}
@@ -204,7 +214,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
       )}
       {isNavigating && navigationState && initialDistance && (
         <DirectionsTab
-          distance={navigationState.distance}
+          currentDistance={navigationState.currentDistance}
           initialDistance={initialDistance}
           duration={navigationState.duration}
           onCancel={() => handleCancelNavigation()}
@@ -243,6 +253,6 @@ const styles = StyleSheet.create({
   },
   nearEventsList: {
     position: 'absolute',
-    bottom: 32
+    bottom: 40
   }
 })

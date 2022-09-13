@@ -6,25 +6,29 @@ import { Event } from '~services/models'
 
 export interface EventMarkerProps {
   event: Event
+  isSelected?: boolean
 }
 
-export const EventMarker: React.FC<EventMarkerProps> = ({ event }) => {
+export const EventMarker: React.FC<EventMarkerProps> = ({ event, isSelected = false }) => {
   return (
-    <VStack alignItems="center" style={styles.container}>
-      <Avatar style={styles.avatar} source={{ uri: event.imageUrl }} />
-      <View style={styles.triangle} />
+    <VStack alignItems="center">
+      <Avatar
+        style={[styles.avatar, { borderColor: isSelected ? commonColors.secondary[600] : 'white' }]}
+        source={{ uri: event.imageUrl }}
+      />
+      <View
+        style={[styles.triangle, { borderBottomColor: isSelected ? commonColors.secondary[600] : 'white' }]}
+      />
     </VStack>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: 128,
-    height: 128
-  },
   avatar: {
     borderWidth: 2,
-    borderColor: commonColors.white
+    borderColor: commonColors.white,
+    marginBottom: -4,
+    zIndex: 2
   },
   triangle: {
     width: 0,
@@ -37,6 +41,7 @@ const styles = StyleSheet.create({
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: commonColors.white,
-    transform: [{ rotate: '180deg' }]
+    transform: [{ rotate: '180deg' }],
+    zIndex: 1
   }
 })

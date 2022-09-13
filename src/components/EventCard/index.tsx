@@ -50,7 +50,7 @@ export const EventCard = ({
                 />
               </Box>
             ) : null}
-            <VStack ml={1}>
+            <VStack ml={2}>
               <Text bold fontSize={fontSizes['lg']}>
                 {name}
               </Text>
