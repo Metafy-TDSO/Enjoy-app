@@ -95,7 +95,6 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
         showsUserLocation
         showsMyLocationButton={false}
         rotateEnabled
-        loadingEnabled={currentLocation.latitude === initialPosition.latitude}
       >
         {nearEvents.map(event => (
           <Marker
