@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack'
 
 import { HomeScreen, EventDetails, SearchScreen } from '~screens'
+import { NavigationScreen } from '~screens/Navigation'
 
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>()
 
@@ -22,6 +23,7 @@ export const RootNavigator = (): JSX.Element => {
         component={EventDetails}
       />
       <Screen name="Search" component={SearchScreen} />
+      <Screen name="Navigation" component={NavigationScreen} />
     </Navigator>
   )
 }

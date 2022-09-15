@@ -25,7 +25,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
   }
 
   const handleGoToEvent = () => {
-    navigation.navigate('Home', { eventId: event.id })
+    navigation.navigate('Navigation', { eventId: event.id })
   }
 
   return (
