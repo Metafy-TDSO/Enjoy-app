@@ -1,23 +1,18 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { HStack, Icon, Progress, Text, View, VStack } from 'native-base'
+import { Button, HStack, Icon, Text, View, VStack } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import { CloseButton } from '~components/CloseButton'
 import { commonColors, fontSizes, space } from '~constants'
 
 interface DirectionsTabProps {
-  initialDistance: number
   currentDistance: number
   duration: number
   onCancel: () => void
+  onOpenRoute: () => void
 }
 
-export const DirectionsTab = ({
-  onCancel,
-  currentDistance,
-  duration,
-  initialDistance
-}: DirectionsTabProps) => {
+export const DirectionsTab = ({ onCancel, currentDistance, duration }: DirectionsTabProps) => {
   return (
     <View style={styles.tabContainer}>
       <VStack style={styles.container} space={space[1]}>
@@ -36,7 +31,9 @@ export const DirectionsTab = ({
             </Text>
           </HStack>
         </HStack>
-        <Progress value={((initialDistance - currentDistance) / initialDistance) * 100} />
+        <Button variant="solid" bgColor={commonColors.background} color={commonColors.lightText}>
+          Confirmar Rota
+        </Button>
       </VStack>
     </View>
   )
@@ -46,7 +43,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     position: 'absolute',
     bottom: 0,
-    height: 120,
+    height: 140,
     width: Dimensions.get('window').width,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
