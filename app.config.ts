@@ -1,7 +1,7 @@
 import { ExpoConfig, ConfigContext } from '@expo/config'
 
 const appName = 'Enjoy'
-const versionBuild = '0.0.1'
+const versionBuild = '0.0.2'
 
 export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
   return {
@@ -19,11 +19,15 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     assetBundlePatterns: ['**/*'],
     ios: {
       bundleIdentifier: 'com.metafy.enjoy',
-      buildNumber: versionBuild
+      buildNumber: versionBuild,
+      config: { googleMapsApiKey: 'AIzaSyCJr5eb7ScccyD3PY0_1ApgtAtdl_Wu6OY' }
     },
     android: {
       package: 'com.metafy.enjoy',
-      versionCode: 1
+      versionCode: +versionBuild.replace(/\./g, ''),
+      config: {
+        googleMaps: { apiKey: 'AIzaSyCJr5eb7ScccyD3PY0_1ApgtAtdl_Wu6OY' }
+      }
     }
   }
 }
