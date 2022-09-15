@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useRef } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import { Button, Center, IconButton, ScrollView, Spinner, useToast, View } from 'native-base'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'

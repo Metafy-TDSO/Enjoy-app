@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
-import { Container, Box, FlatList, Divider, Center, Spinner, Text, Heading } from 'native-base'
+import { Container, Box, FlatList, Divider, Center, Spinner, Text } from 'native-base'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { useQuery } from 'react-query'
 import { debounce } from 'debounce'
