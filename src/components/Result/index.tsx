@@ -60,7 +60,11 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
           <VStack justifyContent="center">
             <HStack>
               {parts.map(part => {
-                return <Text bold={part.highlight}>{part.text}</Text>
+                return (
+                  <Text key={part.text} bold={part.highlight}>
+                    {part.text}
+                  </Text>
+                )
               })}
             </HStack>
             {address && (

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Dimensions, StyleSheet, Alert, Platform, Linking, Platform, Linking } from 'react-native'
+import { Dimensions, StyleSheet, Alert, Platform, Linking } from 'react-native'
 import { Button, Center, ScrollView, Spinner } from 'native-base'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location'
@@ -51,7 +51,6 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
     data: navigationData,
     isLoading,
     refetch,
-    error,
     error
   } = useQuery(['navigation event'], () => (eventId ? getEventById(eventId) : null), {
     enabled: false
