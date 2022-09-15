@@ -8,7 +8,9 @@
     "web": "expo start --web",
     "lint": "eslint --fix ./src/**",
     "format": "prettier --write ./src/**/*",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "build:android": "expo build:android",
+    "build:ios": "expo build:ios"
   },
   "main": "src/index.tsx",
   "dependencies": {
