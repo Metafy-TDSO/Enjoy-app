@@ -11,6 +11,7 @@ interface LocationRegion {
 
 export interface LocationContextProps {
   currentLocation: LocationRegion
+  isLoading: boolean
 }
 
 export const deltas = {
@@ -24,12 +25,14 @@ export const initialPosition = {
 }
 
 export const LocationContext = createContext<LocationContextProps>({
-  currentLocation: { ...initialPosition, ...deltas }
+  currentLocation: { ...initialPosition, ...deltas },
+  isLoading: true
 })
 
 export const LocationProvider = ({ children }: PropsWithChildren) => {
   const toast = useToast()
   const [currentLocation, setCurrentLocation] = useState<LocationRegion>({ ...initialPosition, ...deltas })
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function loadPosition() {
@@ -52,10 +55,11 @@ export const LocationProvider = ({ children }: PropsWithChildren) => {
       // mapEl.current?.animateToRegion({ latitude, longitude, ...deltas })
 
       // searchNearEvents()
+      setIsLoading(false)
     }
 
     loadPosition()
   }, [])
 
-  return <LocationContext.Provider value={{ currentLocation }}>{children}</LocationContext.Provider>
+  return <LocationContext.Provider value={{ isLoading, currentLocation }}>{children}</LocationContext.Provider>
 }

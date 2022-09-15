@@ -7,49 +7,43 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import { commonColors } from '~constants'
-import { websocketClient } from '~services/client'
 import { Event } from '~services/models'
 import { getManyEvents } from '~services/api'
 import { EventCard } from '~components/EventCard'
 import { EventMarker } from '~components/EventMarker'
 import mapStyle from '~constants/map.style.json'
-import { deltas, initialPosition, LocationContext } from '~contexts/Location.context'
+import { deltas, LocationContext } from '~contexts/Location.context'
 
 export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>
 
 export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
-  const { currentLocation } = useContext(LocationContext)
+  const { isLoading, currentLocation } = useContext(LocationContext)
 
-  const { data: lastThreeEvents } = useQuery(
+  const { data: lastThreeEvents, refetch } = useQuery(
     ['many events'],
     () =>
       getManyEvents({
         limit: 3,
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
-        kilometers: 15,
-        page: 1
+        kilometers: 1000
       }),
-    { refetchInterval: 1000 * 60 * 2 }
+    { refetchInterval: 1000 * 30, retryOnMount: true, refetchOnMount: true }
+  )
+  const { data: nearEvents, refetch: refetchNearEvents } = useQuery(
+    ['near events'],
+    () =>
+      getManyEvents({
+        limit: 25,
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        kilometers: 1000
+      }),
+    { refetchOnReconnect: true }
   )
 
-  const [nearEvents, setNearEvents] = useState<Event[]>([])
   const toast = useToast()
   const mapEl = useRef<MapView>(null)
-
-  const searchNearEvents = () => {
-    websocketClient.emit('client:event:search-near', currentLocation)
-  }
-
-  useEffect(() => {
-    websocketClient.once('server:event:search-near', (response: { events: Event[] }) => {
-      setNearEvents(response.events)
-    })
-
-    return () => {
-      websocketClient.off('server:event:search-near')
-    }
-  }, [])
 
   const handlePressEvent = (event: Event) => {
     navigation.navigate('EventDetails', { event })
@@ -74,8 +68,9 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
       <IconButton
         style={styles.refreshButton}
         name="refresh"
-        onPress={() => {
-          searchNearEvents()
+        onPress={async () => {
+          await refetchNearEvents()
+          await refetch()
           toast.show({
             title: 'Eventos Atualizados',
             description: 'Os eventos próximos foram atualizados'
@@ -86,17 +81,18 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
       </IconButton>
       <MapView
         style={styles.map}
-        initialRegion={{ ...currentLocation, ...deltas }}
+        region={{ ...currentLocation, ...deltas }}
         provider={PROVIDER_GOOGLE}
         customMapStyle={mapStyle}
         ref={mapEl}
         showsBuildings={false}
         showsIndoors={false}
         showsUserLocation
-        showsMyLocationButton={false}
+        showsMyLocationButton
         rotateEnabled
+        loadingEnabled={isLoading}
       >
-        {nearEvents.map(event => (
+        {nearEvents?.events.map(event => (
           <Marker
             key={event.id}
             coordinate={{
@@ -109,7 +105,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
           </Marker>
         ))}
       </MapView>
-      {lastThreeEvents?.events ? (
+      {!isLoading && lastThreeEvents?.events ? (
         <ScrollView horizontal style={styles.nearEventsList}>
           {lastThreeEvents.events.map(event => (
             <EventCard
