@@ -31,15 +31,7 @@ export const EventCard = ({
           style={styles.imageBackground}
           imageStyle={{ borderRadius: 16 }}
         >
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              width: CARD_WIDTH - 16,
-              backgroundColor: 'rgba(0,0,0,.3)',
-              height: '100%'
-            }}
-          />
+          <View style={styles.overlayContainer} />
           <HStack style={{ paddingVertical: 8 }}>
             {creator.user.avatarUrl ? (
               <Box flexShrink={1} justifyContent="center">
@@ -97,6 +89,14 @@ export const styles = StyleSheet.create({
     height: '100%',
     borderWidth: 2,
     borderColor: commonColors.secondary[600]
+  },
+  overlayContainer: {
+    position: 'absolute',
+    top: 0,
+    width: CARD_WIDTH - 38,
+    backgroundColor: 'rgba(0,0,0,.3)',
+    height: '100%',
+    borderRadius: 16
   },
   container: {
     width: CARD_WIDTH,
