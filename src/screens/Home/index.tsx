@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useEffect } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import { Button, Center, IconButton, ScrollView, Spinner, useToast, View } from 'native-base'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
@@ -39,7 +39,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
         longitude: currentLocation.longitude,
         kilometers: 1000
       }),
-    { refetchOnReconnect: true }
+    { retryOnMount: true, refetchOnMount: true, refetchOnReconnect: true }
   )
 
   const toast = useToast()
@@ -56,6 +56,14 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
       </Center>
     )
   }
+
+  useEffect(() => {
+    async function fetch() {
+      await refetch()
+      await refetchNearEvents()
+    }
+    fetch()
+  }, [currentLocation, isLoading])
 
   return (
     <View>
@@ -88,7 +96,7 @@ export const HomeScreen = ({ navigation }: HomeScreenProps): JSX.Element => {
         showsBuildings={false}
         showsIndoors={false}
         showsUserLocation
-        showsMyLocationButton
+        showsMyLocationButton={false}
         rotateEnabled
         loadingEnabled={isLoading}
       >
