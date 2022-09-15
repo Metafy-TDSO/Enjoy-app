@@ -9,6 +9,7 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     extra: {
       universalLinks: []
     },
+    scheme: 'enjoy',
     name: appName,
     slug: appName,
     version: versionBuild,
@@ -20,11 +21,16 @@ export default ({ config }: ConfigContext): Partial<ExpoConfig> => {
     ios: {
       bundleIdentifier: 'com.metafy.enjoy',
       buildNumber: versionBuild,
-      config: { googleMapsApiKey: 'AIzaSyCJr5eb7ScccyD3PY0_1ApgtAtdl_Wu6OY' }
+      config: { googleMapsApiKey: 'AIzaSyCJr5eb7ScccyD3PY0_1ApgtAtdl_Wu6OY' },
+      supportsTablet: true
     },
     android: {
       package: 'com.metafy.enjoy',
       versionCode: 1,
+      adaptiveIcon: {
+        foregroundImage: './assets/icon.png',
+        backgroundColor: '#0D0A14'
+      },
       config: {
         googleMaps: { apiKey: 'AIzaSyCJr5eb7ScccyD3PY0_1ApgtAtdl_Wu6OY' }
       }

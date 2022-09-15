@@ -1,7 +1,5 @@
 {
   "expo": {
-    "name": "Enjoy",
-    "slug": "enjoy",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -9,23 +7,6 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#0D0A14"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#0D0A14"
-      },
-      "versionCode": 3
-    },
-    "scheme": "enjoy"
+    }
   }
 }
