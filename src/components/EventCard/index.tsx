@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
   overlayContainer: {
     position: 'absolute',
     top: 0,
-    width: CARD_WIDTH - 38,
+    width: CARD_WIDTH - 25,
     backgroundColor: 'rgba(0,0,0,.3)',
     height: '100%',
     borderRadius: 16
