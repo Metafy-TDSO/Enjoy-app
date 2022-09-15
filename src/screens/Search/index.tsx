@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
-import { Container, Box, FlatList, Divider, Center, Spinner, Text } from 'native-base'
+import { Container, Box, FlatList, Divider, Center, Spinner, Text, Heading } from 'native-base'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { useQuery } from 'react-query'
 import { debounce } from 'debounce'
@@ -24,12 +24,16 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
   const [recentSearches, setRecentSearches] = useState<string[]>([])
   const { data, isLoading, refetch } = useQuery(
     ['searchResults'],
-    () => getManyEvents({ ...currentLocation, name: search }),
+    () => getManyEvents({ ...currentLocation, kilometers: 100, name: search, limit: 10 }),
     { enabled: false }
+  )
+  const { data: searchSuggestions, isLoading: loadingSuggestions } = useQuery(['searchSuggestions'], () =>
+    getManyEvents({ ...currentLocation, limit: 5, kilometers: 100 })
   )
 
   useEffect(() => {
     getRecentSearchesStorage((_error, previousRecentSearches) => {
+      console.log('recent search')
       setRecentSearches(JSON.parse(previousRecentSearches ?? '[]'))
     })
   }, [])
@@ -58,11 +62,12 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
 
   const updateSearch = (value: string): void => {
     setSearch(value)
-    if (search.length > 3 || data?.events) debouncedSearch()
+    if (search.length > 3) debouncedSearch()
   }
 
   const handlePressRecentSearch = (value: string): void => {
     setSearch(value)
+    console.log('change search and refetch')
     refetch()
   }
 
@@ -71,9 +76,9 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
       <Box style={styles.searchContainer}>
         <SearchBar onGoBack={handleGoBack} value={search} handleChangeText={updateSearch} />
       </Box>
-      {(!data?.events || data?.events.length === 0) && search === '' ? (
+      {search !== '' ? (
         <FlatList
-          style={styles.resultList}
+          style={styles.recentSearchList}
           data={recentSearches}
           ItemSeparatorComponent={() => <Divider marginBottom={space[0.5]} />}
           renderItem={({ item, index: key }) => (
@@ -91,29 +96,54 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
           <Spinner size="lg" />
         </Center>
       ) : null}
-      {data?.events.length === 0 && search !== '' ? (
+      {data?.events.length === 0 && search.length > 3 ? (
         <Center width="100%" style={styles.resultList}>
           <Text>Nenhum resultado encontrado</Text>
         </Center>
       ) : null}
+      {search.length < 3 && !loadingSuggestions && searchSuggestions ? (
+        <>
+          <Text marginTop={space[1]}>Eventos próximos de você:</Text>
+          <FlatList
+            style={styles.resultList}
+            data={searchSuggestions.events}
+            ItemSeparatorComponent={() => <Divider marginBottom={space[0.5]} />}
+            renderItem={({ item }) => (
+              <Result
+                currentPosition={currentLocation}
+                event={item}
+                search={search}
+                onPress={id => {
+                  const pressedEvent = searchSuggestions.events.find(event => event.id === id)
+                  if (pressedEvent) handlePressResult(pressedEvent)
+                }}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        </>
+      ) : null}
       {search.length > 3 && data?.events && data.events.length > 0 ? (
-        <FlatList
-          style={styles.resultList}
-          data={data?.events}
-          ItemSeparatorComponent={() => <Divider marginBottom={space[0.5]} />}
-          renderItem={({ item }) => (
-            <Result
-              currentPosition={currentLocation}
-              event={item}
-              search={search}
-              onPress={id => {
-                const pressedEvent = data.events.find(event => event.id === id)
-                if (pressedEvent) handlePressResult(pressedEvent)
-              }}
-            />
-          )}
-          keyExtractor={item => item.id.toString()}
-        />
+        <>
+          <Text marginTop={space[1]}>Resultados</Text>
+          <FlatList
+            style={styles.resultList}
+            data={data?.events}
+            ItemSeparatorComponent={() => <Divider marginBottom={space[0.5]} />}
+            renderItem={({ item }) => (
+              <Result
+                currentPosition={currentLocation}
+                event={item}
+                search={search}
+                onPress={id => {
+                  const pressedEvent = data.events.find(event => event.id === id)
+                  if (pressedEvent) handlePressResult(pressedEvent)
+                }}
+              />
+            )}
+            keyExtractor={item => item.id.toString()}
+          />
+        </>
       ) : null}
     </Container>
   )
@@ -129,8 +159,12 @@ const styles = StyleSheet.create({
     marginBottom: space[2]
   },
   resultList: {
-    marginTop: space[2],
+    marginVertical: space[2],
     width: Dimensions.get('window').width - 36,
     height: Dimensions.get('window').height - 200
+  },
+  recentSearchList: {
+    marginVertical: space[2],
+    width: Dimensions.get('window').width - 36
   }
 })
