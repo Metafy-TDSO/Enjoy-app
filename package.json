@@ -10,7 +10,9 @@
     "format": "prettier --write ./src/**/*",
     "postinstall": "patch-package",
     "build:android": "eas build -p android",
-    "build:ios": "eas build -p ios"
+    "build:ios": "eas build -p ios",
+    "submit:android": "eas submit -p android",
+    "submit:ios": "eas submit -p ios"
   },
   "main": "src/index.tsx",
   "dependencies": {
