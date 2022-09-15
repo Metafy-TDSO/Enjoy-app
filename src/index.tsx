@@ -11,6 +11,7 @@ import { AppLoading } from '~components'
 import { theme, nativeBaseConfig } from '~constants'
 import { Navigation } from '~navigation'
 import { queryClient } from '~services/client'
+import { LocationProvider } from '~contexts/Location.context'
 
 const App = (): JSX.Element => {
   return (
@@ -19,7 +20,9 @@ const App = (): JSX.Element => {
         <GestureHandlerRootView style={styles.gestureHandlerRootView}>
           <QueryClientProvider client={queryClient}>
             <BottomSheetModalProvider>
-              <Navigation />
+              <LocationProvider>
+                <Navigation />
+              </LocationProvider>
             </BottomSheetModalProvider>
           </QueryClientProvider>
         </GestureHandlerRootView>
