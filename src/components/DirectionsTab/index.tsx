@@ -12,7 +12,7 @@ interface DirectionsTabProps {
   onOpenRoute: () => void
 }
 
-export const DirectionsTab = ({ onCancel, currentDistance, duration }: DirectionsTabProps) => {
+export const DirectionsTab = ({ onCancel, currentDistance, duration, onOpenRoute }: DirectionsTabProps) => {
   return (
     <View style={styles.tabContainer}>
       <VStack style={styles.container} space={space[1]}>
@@ -31,7 +31,12 @@ export const DirectionsTab = ({ onCancel, currentDistance, duration }: Direction
             </Text>
           </HStack>
         </HStack>
-        <Button variant="solid" bgColor={commonColors.background} color={commonColors.lightText}>
+        <Button
+          variant="solid"
+          bgColor={commonColors.background}
+          color={commonColors.lightText}
+          onPress={onOpenRoute}
+        >
           Confirmar Rota
         </Button>
       </VStack>

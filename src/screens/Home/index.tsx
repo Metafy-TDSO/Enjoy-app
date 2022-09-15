@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Dimensions, StyleSheet, Alert, Platform, Linking } from 'react-native'
+import { Dimensions, StyleSheet, Alert, Platform, Linking, Platform, Linking } from 'react-native'
 import { Button, Center, ScrollView, Spinner } from 'native-base'
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'
 import { getCurrentPositionAsync, requestForegroundPermissionsAsync } from 'expo-location'
@@ -51,6 +51,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
     data: navigationData,
     isLoading,
     refetch,
+    error,
     error
   } = useQuery(['navigation event'], () => (eventId ? getEventById(eventId) : null), {
     enabled: false
@@ -81,6 +82,12 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
   }, [error])
 
   useEffect(() => {
+    if (error) {
+      Alert.alert('Erro', 'Não foi possível carregar o evento')
+    }
+  }, [error])
+
+  useEffect(() => {
     async function loadPosition() {
       const { status } = await requestForegroundPermissionsAsync()
 
@@ -94,6 +101,7 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
       const { latitude, longitude } = currentPosition.coords
 
       setPosition({ latitude, longitude })
+      mapEl.current?.animateToRegion({ latitude, longitude, ...deltas })
       mapEl.current?.animateToRegion({ latitude, longitude, ...deltas })
     }
 
@@ -160,7 +168,13 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
           ? `http //maps.apple.com/?ll=${latLng}`
           : `https://www.google.com/maps/dir/?api=1&destination=${latLng}`
 
-      Linking.openURL(url)
+      try {
+        await Linking.openURL(url)
+      } catch (e) {
+        console.error(e)
+        Alert.alert('Ops!', 'Não foi possível abrir o mapa')
+        handleCancelNavigation()
+      }
     } else {
       Alert.alert('Ops!', 'Não foi possível abrir o mapa')
       handleCancelNavigation()
@@ -197,10 +211,6 @@ export const HomeScreen = ({ route, navigation }: HomeScreenProps): JSX.Element 
         showsBuildings={false}
         showsIndoors={false}
         showsUserLocation
-        followsUserLocation
-        showsCompass
-        showsPointsOfInterest
-        toolbarEnabled
         rotateEnabled
         scrollDuringRotateOrZoomEnabled
         loadingEnabled={position.latitude === initialPosition.latitude}

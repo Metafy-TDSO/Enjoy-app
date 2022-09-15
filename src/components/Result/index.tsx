@@ -46,7 +46,7 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
                 <Icon as={MaterialIcons} name="access-time" size="sm" color={commonColors.white} />
               </Avatar>
             )}
-            {distance && (
+            {distance ? (
               <Text
                 _dark={{
                   color: 'warmGray.50'
@@ -55,12 +55,12 @@ export const Result = ({ event, currentPosition, search, onPress }: ResultProps)
               >
                 {distance.toFixed(2)} km
               </Text>
-            )}
+            ) : null}
           </VStack>
           <VStack justifyContent="center">
             <HStack>
               {parts.map(part => {
-                return part.highlight ? <Text bold>{part.text}</Text> : <Text>{part.text}</Text>
+                return <Text bold={part.highlight}>{part.text}</Text>
               })}
             </HStack>
             {address && (
