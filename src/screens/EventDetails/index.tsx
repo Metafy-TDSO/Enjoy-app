@@ -66,7 +66,7 @@ export const EventDetails = ({ navigation, route }: EventDetailsProps) => {
           <HStack justifyContent="space-between">
             <HStack alignItems="center" space={space['0.5']}>
               <Icon color={commonColors.secondary[600]} as={MaterialIcons} name="location-on" size="lg" />
-              <Text fontSize="md" isTruncated maxW={Dimensions.get('window').width / 2}>
+              <Text fontSize="md" isTruncated maxW={Dimensions.get('window').width / 2 + 20}>
                 {event.address}
               </Text>
             </HStack>

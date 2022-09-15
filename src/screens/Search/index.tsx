@@ -35,8 +35,6 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
   }, [])
 
   const addRecentSearch = async () => {
-    if (search.length < 3) return
-
     const previousRecentSearches = await getRecentSearchesStorage()
     const result = Array.from(new Set([search, ...JSON.parse(previousRecentSearches ?? '[]')])).slice(0, 3)
 
@@ -60,7 +58,7 @@ export const SearchScreen = ({ navigation, route }: SearchScreenProps) => {
 
   const updateSearch = (value: string): void => {
     setSearch(value)
-    if (search.length > 3) debouncedSearch()
+    if (search.length > 3 || data?.events) debouncedSearch()
   }
 
   const handlePressRecentSearch = (value: string): void => {
