@@ -25,6 +25,7 @@
     "babel-plugin-inline-dotenv": "^1.7.0",
     "date-fns": "^2.29.2",
     "debounce": "^1.2.1",
+    "eas-cli": "^2.1.0",
     "expo": "~46.0.9",
     "expo-app-loading": "~2.1.0",
     "expo-asset": "~8.6.1",
