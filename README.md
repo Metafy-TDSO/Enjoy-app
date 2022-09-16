@@ -6,7 +6,7 @@ Esse projeto representa o aplicativo mobile híbrido do projeto IFynd, desenvolv
 
 ## 📱 Executar o aplicativo diretamente pelo celular Android
 
-Você pode instalar e executar o aplicativo diretamente em seu dispositivo **Android** através do [arquivo *.apk*](./apk).
+Você pode instalar e executar o aplicativo diretamente em seu dispositivo **Android** através do [arquivo *.apk*](./app/IFynd.apk).
 
 
 > Obs: Uma aplicação *.ipa* para dispositivos iOS não está disponível no momento.
